@@ -8,7 +8,8 @@
       "age": "6+",
       "theme": "FOREST",
       "file": "bosque.json",
-      "version": 1
+      "version": 2,
+      "cover": "bosque.jpg"
     },
     {
       "id": "luna",
@@ -17,7 +18,8 @@
       "age": "6+",
       "theme": "NIGHT",
       "file": "luna.json",
-      "version": 1
+      "version": 2,
+      "cover": "luna.jpg"
     },
     {
       "id": "mar",
@@ -26,7 +28,8 @@
       "age": "7+",
       "theme": "SEA",
       "file": "mar.json",
-      "version": 1
+      "version": 2,
+      "cover": "mar.jpg"
     }
   ]
 }

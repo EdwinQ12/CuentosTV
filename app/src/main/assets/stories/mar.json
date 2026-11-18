@@ -7,6 +7,7 @@
     "inicio": {
       "text": "Encuentras un mapa antiguo dentro de una botella. Tiene dos marcas: un faro y una isla que solo aparece al amanecer.",
       "theme": "SEA",
+      "image": "mar.jpg",
       "choices": [
         { "text": "Seguir la ruta del faro", "next": "faro" },
         { "text": "Navegar hacia el amanecer", "next": "amanecer" }
@@ -15,6 +16,7 @@
     "faro": {
       "text": "El faro está cubierto de conchas y tiene una puerta entreabierta. Una luz gira lentamente en lo alto.",
       "theme": "SEA",
+      "image": "mar_faro.jpg",
       "choices": [
         { "text": "Entrar al faro", "next": "dentro" },
         { "text": "Tocar la puerta", "next": "puerta" }
@@ -23,6 +25,7 @@
     "amanecer": {
       "text": "Al amanecer, una ballena enorme nada junto a tu bote. Parece querer mostrarte algo.",
       "theme": "SEA",
+      "image": "mar_amanecer.jpg",
       "choices": [
         { "text": "Subir a la ballena", "next": "ballena" },
         { "text": "Escuchar el viento", "next": "viento" }
@@ -31,26 +34,126 @@
     "dentro": {
       "text": "Dentro del faro hay un cofre lleno de conchas que cantan. Cada una guarda la voz de un marinero.",
       "theme": "NIGHT",
+      "image": "mar_faro.jpg",
+      "choices": [
+        { "text": "Abrir el cofre de conchas", "next": "cofre" },
+        { "text": "Subir a la torre", "next": "torre" }
+      ]
+    },
+    "cofre": {
+      "text": "Abres el cofre y las conchas cantan a coro. Reconoces la voz de tu abuelo y sonríes sin poder evitarlo.",
+      "theme": "NIGHT",
+      "image": "mar_faro.jpg",
       "ending": true,
       "endingTitle": "El tesoro de las conchas"
+    },
+    "torre": {
+      "text": "La torre tiene una lámpara enorme y un telescopio apuntando al mar.",
+      "theme": "SEA",
+      "image": "mar_faro.jpg",
+      "choices": [
+        { "text": "Encender la luz", "next": "luz" },
+        { "text": "Mirar por el telescopio", "next": "telescopio" }
+      ]
+    },
+    "luz": {
+      "text": "Enciendes la luz y el faro ilumina toda la costa. Los barcos lejanos responden con destellos.",
+      "theme": "SEA",
+      "image": "mar.jpg",
+      "ending": true,
+      "endingTitle": "La luz del faro"
+    },
+    "telescopio": {
+      "text": "Por el telescopio ves una isla que no está en ningún mapa. Al día siguiente, tu barco navega hacia ella.",
+      "theme": "SEA",
+      "image": "mar_amanecer.jpg",
+      "ending": true,
+      "endingTitle": "La isla invisible"
     },
     "puerta": {
       "text": "La puerta se abre sola. Una sirena te saluda y te ofrece un mapa nuevo, esta vez hacia las estrellas.",
       "theme": "CASTLE",
+      "image": "mar.jpg",
+      "choices": [
+        { "text": "Aceptar el mapa de la sirena", "next": "mapa_estrellas" },
+        { "text": "Preguntar por el tesoro", "next": "tesoro" }
+      ]
+    },
+    "mapa_estrellas": {
+      "text": "El mapa de la sirena brilla en la oscuridad. Sigues sus líneas y llegas a una cala donde el mar refleja constelaciones.",
+      "theme": "SPACE",
+      "image": "mar_amanecer.jpg",
       "ending": true,
-      "endingTitle": "El faro de las sirenas"
+      "endingTitle": "El mapa de las estrellas"
+    },
+    "tesoro": {
+      "text": "La sirena te dice que el tesoro está en el arrecife, donde el agua es tan clara que se ven los peces de colores.",
+      "theme": "SEA",
+      "image": "mar.jpg",
+      "choices": [
+        { "text": "Bucear al arrecife", "next": "arrecife" },
+        { "text": "Volver al barco", "next": "barco" }
+      ]
+    },
+    "arrecife": {
+      "text": "Buceas entre peces de colores y encuentras una concha enorme. Dentro hay una perla que brilla como una lámpara.",
+      "theme": "SEA",
+      "image": "mar_amanecer.jpg",
+      "ending": true,
+      "endingTitle": "La perla del arrecife"
+    },
+    "barco": {
+      "text": "Vuelves al barco con el mapa de la sirena. Al zarpar, el mar se llena de delfines que acompañan tu viaje.",
+      "theme": "SEA",
+      "image": "mar.jpg",
+      "ending": true,
+      "endingTitle": "El viaje de los delfines"
     },
     "ballena": {
       "text": "La ballena te lleva a una isla donde los piratas son amables y reparten tesoros entre los visitantes.",
       "theme": "SEA",
+      "image": "mar_amanecer.jpg",
+      "choices": [
+        { "text": "Bajar a la isla", "next": "isla" },
+        { "text": "Cantar con la ballena", "next": "canto_ballena" }
+      ]
+    },
+    "isla": {
+      "text": "En la isla te reciben piratas con sombreros de colores. Te dan una moneda de oro y un mapa para volver.",
+      "theme": "SEA",
+      "image": "mar_amanecer.jpg",
       "ending": true,
       "endingTitle": "La isla de los piratas amables"
     },
+    "canto_ballena": {
+      "text": "Cantas con la ballena una canción sin palabras. El mar se queda quieto para escuchar.",
+      "theme": "SEA",
+      "image": "mar_amanecer.jpg",
+      "ending": true,
+      "endingTitle": "La canción de la ballena"
+    },
     "viento": {
-      "text": "El viento trae un mensaje: el verdadero tesoro es el mapa del cielo. Al mirar arriba, ves constelaciones con forma de barco.",
+      "text": "El viento trae un mensaje: el verdadero tesoro es el mapa del cielo.",
+      "theme": "SEA",
+      "image": "mar.jpg",
+      "choices": [
+        { "text": "Seguir el mensaje del viento", "next": "constelaciones" },
+        { "text": "Volver al puerto", "next": "puerto" }
+      ]
+    },
+    "constelaciones": {
+      "text": "Al mirar arriba ves constelaciones con forma de barco, de ballena y de faro. El cielo también guarda un mapa.",
       "theme": "SPACE",
+      "image": "mar_amanecer.jpg",
       "ending": true,
       "endingTitle": "El mapa del cielo"
+    },
+    "puerto": {
+      "text": "Vuelves al puerto con el mapa en el bolsillo. Prometes volver al amanecer para seguir buscando.",
+      "theme": "SEA",
+      "image": "mar_amanecer.jpg",
+      "ending": true,
+      "endingTitle": "El puerto al amanecer"
     }
   }
 }

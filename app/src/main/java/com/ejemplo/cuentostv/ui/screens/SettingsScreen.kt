@@ -30,7 +30,11 @@ import com.ejemplo.cuentostv.ui.theme.TvText
 @Composable
 fun SettingsScreen(
     settings: AppSettings,
+    voiceLabel: String,
     onToggleNarration: () -> Unit,
+    onOpenVoices: () -> Unit,
+    onCycleRate: () -> Unit,
+    onTestVoice: () -> Unit,
     onToggleTextScale: () -> Unit,
     onBack: () -> Unit
 ) {
@@ -43,20 +47,20 @@ fun SettingsScreen(
     StoryBackground(theme = StoryTheme.CASTLE) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(horizontal = 72.dp, vertical = 48.dp),
-            verticalArrangement = Arrangement.spacedBy(22.dp)
+            contentPadding = PaddingValues(horizontal = 64.dp, vertical = 34.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item {
                 Text(
                     text = "Ajustes",
                     color = TvText,
-                    fontSize = 48.sp,
+                    fontSize = 40.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "Personaliza la lectura de los cuentos.",
+                    text = "Personaliza la lectura y la voz de los cuentos.",
                     color = TvMuted,
-                    fontSize = 20.sp
+                    fontSize = 17.sp
                 )
             }
 
@@ -65,14 +69,55 @@ fun SettingsScreen(
                     onClick = onToggleNarration,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(68.dp)
+                        .height(54.dp)
                         .focusRequester(firstFocus)
                 ) {
                     Text(
                         text = "Narración: ${if (settings.narrationEnabled) "Activada" else "Desactivada"}",
-                        fontSize = 23.sp,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
+                }
+            }
+
+            item {
+                Button(
+                    onClick = onOpenVoices,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(54.dp)
+                ) {
+                    Text(
+                        text = "Voz: $voiceLabel",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            item {
+                Button(
+                    onClick = onCycleRate,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(54.dp)
+                ) {
+                    Text(
+                        text = "Velocidad: ${settings.speechRate.label}",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
+
+            item {
+                Button(
+                    onClick = onTestVoice,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(54.dp)
+                ) {
+                    Text("Probar narración", fontSize = 19.sp)
                 }
             }
 
@@ -81,11 +126,11 @@ fun SettingsScreen(
                     onClick = onToggleTextScale,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(68.dp)
+                        .height(54.dp)
                 ) {
                     Text(
                         text = "Texto: ${if (settings.textScale == TextScale.LARGE) "Grande" else "Normal"}",
-                        fontSize = 23.sp,
+                        fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -96,25 +141,25 @@ fun SettingsScreen(
                     onClick = onBack,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(64.dp)
+                        .height(52.dp)
                 ) {
-                    Text("Volver al inicio", fontSize = 21.sp)
+                    Text("Volver al inicio", fontSize = 19.sp)
                 }
             }
 
             item {
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     Text(
                         text = "La narración usa el motor de voz (TTS) del dispositivo. " +
-                            "Si el televisor no tiene una voz en español, puede leer con otra voz o no estar disponible.",
+                            "Si el televisor no tiene una voz en español, la app lo avisa.",
                         color = TvMuted,
-                        fontSize = 17.sp
+                        fontSize = 14.sp
                     )
                     Text(
                         text = "El progreso y los ajustes se guardan localmente. " +
-                            "Los cuentos en línea se descargan y se guardan para poder leerlos sin conexión.",
+                            "Los cuentos e imágenes en línea se guardan para leer sin conexión.",
                         color = TvMuted,
-                        fontSize = 17.sp
+                        fontSize = 14.sp
                     )
                 }
             }

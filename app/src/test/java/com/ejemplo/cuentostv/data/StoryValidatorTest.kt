@@ -134,6 +134,47 @@ class StoryValidatorTest {
     }
 
     @Test
+    fun `las imagenes referenciadas existen`() {
+        val localCatalog = json.decodeFromString(
+            StoryCatalog.serializer(),
+            File("src/main/assets/stories/catalog.json").readText()
+        )
+
+        localCatalog.stories.forEach { summary ->
+            val story = loadAssetStory(summary.id)
+            val names = buildSet {
+                summary.cover?.let { add(it) }
+                story.nodes.values.forEach { node -> node.image?.let { add(it) } }
+            }
+            names.forEach { name ->
+                assertTrue(
+                    "Falta app/src/main/assets/stories/images/$name",
+                    File("src/main/assets/stories/images/$name").exists()
+                )
+            }
+        }
+
+        val remoteCatalog = json.decodeFromString(
+            StoryCatalog.serializer(),
+            File("../tv-content/catalog.json").readText()
+        )
+        val remoteStory = json.decodeFromString(
+            Story.serializer(),
+            File("../tv-content/stories/reloj.json").readText()
+        )
+        val remoteNames = buildSet {
+            remoteCatalog.stories.forEach { summary -> summary.cover?.let { add(it) } }
+            remoteStory.nodes.values.forEach { node -> node.image?.let { add(it) } }
+        }
+        remoteNames.forEach { name ->
+            assertTrue(
+                "Falta tv-content/images/$name",
+                File("../tv-content/images/$name").exists()
+            )
+        }
+    }
+
+    @Test
     fun `cuentos locales incluidos son jugables`() {
         listOf("bosque", "luna", "mar").forEach { id ->
             val story = loadAssetStory(id)

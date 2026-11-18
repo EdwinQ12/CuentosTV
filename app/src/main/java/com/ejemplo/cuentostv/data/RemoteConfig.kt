@@ -7,4 +7,6 @@ object RemoteConfig {
     const val CATALOG_URL = "$CONTENT_BASE/catalog.json"
 
     fun storyUrl(file: String): String = "$CONTENT_BASE/stories/$file"
+
+    fun imageUrl(file: String): String = "$CONTENT_BASE/images/$file"
 }

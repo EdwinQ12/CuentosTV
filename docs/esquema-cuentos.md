@@ -17,7 +17,8 @@ roto, el cuento no se abre.
       "age": "6+",
       "theme": "FOREST",
       "file": "bosque.json",
-      "version": 1
+      "version": 2,
+      "cover": "bosque.jpg"
     }
   ]
 }
@@ -33,6 +34,7 @@ roto, el cuento no se abre.
 | `stories[].theme` | enum | no (`FOREST`) | `FOREST`, `NIGHT`, `SEA`, `CASTLE`, `SPACE` |
 | `stories[].file` | texto | sí | Archivo del cuento, relativo a `stories/` |
 | `stories[].version` | entero | no (1) | Versión del contenido |
+| `stories[].cover` | texto | no | Imagen de portada, relativa a `images/` |
 
 ## Cuento
 
@@ -75,11 +77,23 @@ roto, el cuento no se abre.
 | --- | --- | --- | --- |
 | `text` | texto | sí | Texto que se lee y se narra |
 | `theme` | enum | no | Tema visual de la escena |
+| `image` | texto | no | Ilustración de la escena, relativa a `images/` |
 | `choices` | lista | si no es final | Entre 2 y 4 opciones recomendadas |
 | `choices[].text` | texto | sí | Texto del botón |
 | `choices[].next` | texto | sí | ID de la escena destino; debe existir |
 | `ending` | booleano | no (`false`) | Marca la escena como final |
 | `endingTitle` | texto | no | Título grande del final |
+
+## Imágenes
+
+- **Locales:** `app/src/main/assets/stories/images/<archivo>`
+- **Remotas:** `tv-content/images/<archivo>`; la app las descarga y guarda en
+  `filesDir/remote/images` para leer sin conexión.
+- Se recomiendan JPG de 1280×720 (calidad 85–90).
+- El campo es opcional: sin imagen se usa el degradado del tema.
+- El nombre debe ser un archivo simple; no se admiten rutas con carpetas.
+
+La app valida en las pruebas que todas las imágenes referenciadas existan.
 
 ## Reglas de validación
 
@@ -97,6 +111,8 @@ los cuentos incluidos.
 
 ## Consejos de escritura
 
+- Los cuentos incluidos tienen 17–19 escenas y 9–10 finales; apunta a esa
+  profundidad si quieres una sesión de 10–15 minutos.
 - Usa entre 2 y 4 decisiones por escena para que el control remoto no canse.
 - Mantén los textos de 1 a 3 frases: se leen en voz alta y se ven desde el sofá.
 - Escribe IDs cortos y sin acentos (`inicio`, `cueva`, `final-luna`).

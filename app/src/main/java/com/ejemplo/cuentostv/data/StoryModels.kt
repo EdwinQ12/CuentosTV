@@ -25,7 +25,8 @@ data class StorySummary(
     val age: String = "6+",
     val theme: StoryTheme = StoryTheme.FOREST,
     val file: String,
-    val version: Int = 1
+    val version: Int = 1,
+    val cover: String? = null
 )
 
 @Serializable
@@ -43,7 +44,8 @@ data class StoryNode(
     val theme: StoryTheme? = null,
     val choices: List<StoryChoice> = emptyList(),
     val ending: Boolean = false,
-    val endingTitle: String? = null
+    val endingTitle: String? = null,
+    val image: String? = null
 )
 
 @Serializable

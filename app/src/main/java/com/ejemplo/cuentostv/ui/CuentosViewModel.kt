@@ -1,10 +1,12 @@
 package com.ejemplo.cuentostv.ui
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.ejemplo.cuentostv.data.AppSettings
 import com.ejemplo.cuentostv.data.ProgressRepository
+import com.ejemplo.cuentostv.data.SpeechRate
 import com.ejemplo.cuentostv.data.SettingsRepository
 import com.ejemplo.cuentostv.data.Story
 import com.ejemplo.cuentostv.data.StoryItem
@@ -23,6 +25,7 @@ sealed interface Screen {
     data class Detail(val storyId: String) : Screen
     data class Reader(val storyId: String) : Screen
     data object Settings : Screen
+    data object Voices : Screen
 }
 
 data class CuentosUiState(
@@ -208,6 +211,10 @@ class CuentosViewModel(application: Application) : AndroidViewModel(application)
         _uiState.update { it.copy(screen = Screen.Settings, message = null) }
     }
 
+    fun openVoices() {
+        _uiState.update { it.copy(screen = Screen.Voices, message = null) }
+    }
+
     fun toggleNarration() {
         val newValue = !_uiState.value.settings.narrationEnabled
         viewModelScope.launch {
@@ -222,6 +229,24 @@ class CuentosViewModel(application: Application) : AndroidViewModel(application)
             settingsRepository.setTextScale(next)
         }
     }
+
+    fun selectVoice(name: String?) {
+        viewModelScope.launch {
+            settingsRepository.setVoice(name)
+        }
+    }
+
+    fun cycleSpeechRate() {
+        val rates = SpeechRate.entries
+        val current = _uiState.value.settings.speechRate
+        val next = rates[(current.ordinal + 1) % rates.size]
+        viewModelScope.launch {
+            settingsRepository.setSpeechRate(next)
+        }
+    }
+
+    suspend fun loadImage(item: StoryItem, name: String): Bitmap? =
+        storyRepository.loadImage(item, name)
 
     fun refreshRemote() {
         if (_uiState.value.isRefreshing) return
@@ -252,6 +277,7 @@ class CuentosViewModel(application: Application) : AndroidViewModel(application)
                     nodeId = null
                 )
                 Screen.Settings -> it.copy(screen = Screen.Home)
+                Screen.Voices -> it.copy(screen = Screen.Settings)
                 Screen.Home -> it
             }
         }

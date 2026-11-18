@@ -2,6 +2,7 @@
 
 package com.ejemplo.cuentostv.ui.screens
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,16 +23,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Button
 import androidx.tv.material3.Text
+import com.ejemplo.cuentostv.data.StoryItem
 import com.ejemplo.cuentostv.data.TextScale
 import com.ejemplo.cuentostv.ui.CuentosUiState
 import com.ejemplo.cuentostv.ui.Narrator
+import com.ejemplo.cuentostv.ui.components.StoryImage
 import com.ejemplo.cuentostv.ui.theme.StoryBackground
 import com.ejemplo.cuentostv.ui.theme.TvMuted
 import com.ejemplo.cuentostv.ui.theme.TvSurface
@@ -41,6 +47,7 @@ import com.ejemplo.cuentostv.ui.theme.accentColor
 fun ReaderScreen(
     state: CuentosUiState,
     narrator: Narrator,
+    loadImage: suspend (StoryItem, String) -> Bitmap?,
     onChoose: (String) -> Unit,
     onRestart: () -> Unit,
     onHome: () -> Unit,
@@ -79,7 +86,7 @@ fun ReaderScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 64.dp, end = 64.dp, top = 28.dp, bottom = 6.dp),
+                    .padding(start = 64.dp, end = 64.dp, top = 26.dp, bottom = 6.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
@@ -116,33 +123,62 @@ fun ReaderScreen(
             LazyColumn(
                 modifier = Modifier.weight(1f),
                 contentPadding = PaddingValues(horizontal = 64.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
+                verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 item {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                color = TvSurface.copy(alpha = 0.78f),
-                                shape = RoundedCornerShape(22.dp)
-                            )
-                            .padding(horizontal = 28.dp, vertical = 22.dp)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(20.dp),
+                        verticalAlignment = Alignment.Top
                     ) {
-                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            if (node.ending && node.endingTitle != null) {
+                        if (node.image != null) {
+                            Box(
+                                modifier = Modifier
+                                    .width(290.dp)
+                                    .height(163.dp)
+                                    .clip(RoundedCornerShape(18.dp))
+                            ) {
+                                StoryImage(
+                                    item = item,
+                                    name = node.image,
+                                    loadImage = loadImage,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.Crop
+                                ) {
+                                    Box(
+                                        Modifier
+                                            .fillMaxSize()
+                                            .background(TvSurface.copy(alpha = 0.6f))
+                                    )
+                                }
+                            }
+                        }
+
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .background(
+                                    color = TvSurface.copy(alpha = 0.6f),
+                                    shape = RoundedCornerShape(20.dp)
+                                )
+                                .padding(horizontal = 24.dp, vertical = 18.dp)
+                        ) {
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                if (node.ending && node.endingTitle != null) {
+                                    Text(
+                                        text = node.endingTitle,
+                                        color = item.summary.theme.accentColor(),
+                                        fontSize = if (largeText) 32.sp else 28.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
                                 Text(
-                                    text = node.endingTitle,
-                                    color = item.summary.theme.accentColor(),
-                                    fontSize = if (largeText) 34.sp else 30.sp,
-                                    fontWeight = FontWeight.Bold
+                                    text = node.text,
+                                    color = TvText,
+                                    fontSize = if (largeText) 29.sp else 24.sp,
+                                    lineHeight = if (largeText) 38.sp else 32.sp
                                 )
                             }
-                            Text(
-                                text = node.text,
-                                color = TvText,
-                                fontSize = if (largeText) 32.sp else 26.sp,
-                                lineHeight = if (largeText) 42.sp else 36.sp
-                            )
                         }
                     }
                 }
@@ -153,10 +189,10 @@ fun ReaderScreen(
                             onClick = onRestart,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(58.dp)
+                                .height(54.dp)
                                 .focusRequester(firstAction)
                         ) {
-                            Text("Volver a empezar", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                            Text("Volver a empezar", fontSize = 19.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                     item {
@@ -164,9 +200,9 @@ fun ReaderScreen(
                             onClick = onHome,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(58.dp)
+                                .height(54.dp)
                         ) {
-                            Text("Elegir otro cuento", fontSize = 20.sp)
+                            Text("Elegir otro cuento", fontSize = 19.sp)
                         }
                     }
                 } else {
@@ -175,14 +211,14 @@ fun ReaderScreen(
                             onClick = { onChoose(choice.next) },
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(62.dp)
+                                .height(56.dp)
                                 .then(
                                     if (index == 0) Modifier.focusRequester(firstAction) else Modifier
                                 )
                         ) {
                             Text(
                                 text = "${index + 1}. ${choice.text}",
-                                fontSize = 21.sp,
+                                fontSize = 20.sp,
                                 fontWeight = FontWeight.Bold
                             )
                         }

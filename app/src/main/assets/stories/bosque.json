@@ -7,6 +7,7 @@
     "inicio": {
       "text": "Una noche, una luz azul cruza el bosque y se detiene entre los árboles. Parece esperar algo de ti.",
       "theme": "FOREST",
+      "image": "bosque.jpg",
       "choices": [
         { "text": "Seguir la luz", "next": "sendero" },
         { "text": "Quedarte quieto y observar", "next": "claro" }
@@ -15,6 +16,7 @@
     "sendero": {
       "text": "La luz te lleva hasta un río que brilla como si tuviera estrellas dentro. Hay un puente de raíces y una orilla llena de musgo.",
       "theme": "FOREST",
+      "image": "bosque_puente.jpg",
       "choices": [
         { "text": "Cruzar el puente de raíces", "next": "puente" },
         { "text": "Seguir la orilla", "next": "orilla" }
@@ -23,20 +25,55 @@
     "claro": {
       "text": "En el claro encuentras un mapa dibujado sobre hojas secas. Una flecha señala un árbol enorme y otra te devuelve a casa.",
       "theme": "FOREST",
+      "image": "bosque.jpg",
       "choices": [
         { "text": "Seguir el mapa hacia el árbol", "next": "arbol" },
         { "text": "Volver a casa", "next": "casa" }
       ]
     },
     "puente": {
-      "text": "Al cruzar el puente, cientos de luciérnagas encienden sus luces. Un pequeño pueblo celebra su fiesta anual y te invita a quedarte.",
+      "text": "Al cruzar el puente, cientos de luciérnagas encienden sus luces. Abajo, un pequeño pueblo celebra su fiesta anual.",
       "theme": "NIGHT",
+      "image": "bosque_puente.jpg",
+      "choices": [
+        { "text": "Bajar al pueblo", "next": "pueblo" },
+        { "text": "Quedarte mirando desde el puente", "next": "puente_final" }
+      ]
+    },
+    "pueblo": {
+      "text": "En el pueblo te reciben con pan caliente y música de flautas. La fiesta dura hasta que salga el sol.",
+      "theme": "NIGHT",
+      "image": "bosque_puente.jpg",
+      "choices": [
+        { "text": "Aceptar la invitación", "next": "fiesta" },
+        { "text": "Preguntar por el camino a casa", "next": "camino" }
+      ]
+    },
+    "fiesta": {
+      "text": "Bailas con las luciérnagas hasta que el cielo se vuelve rosado. Al despedirte, el pueblo te regala una linterna de luz azul.",
+      "theme": "NIGHT",
+      "image": "bosque_puente.jpg",
       "ending": true,
-      "endingTitle": "El pueblo de las luciérnagas"
+      "endingTitle": "La fiesta de las luciérnagas"
+    },
+    "camino": {
+      "text": "Una niña del pueblo te acompaña hasta el sendero. Antes de irse te dice que el bosque siempre deja una puerta abierta.",
+      "theme": "FOREST",
+      "image": "bosque.jpg",
+      "ending": true,
+      "endingTitle": "El camino de vuelta"
+    },
+    "puente_final": {
+      "text": "Desde el puente ves la fiesta entera: luces, música y sombras que bailan. Sin bajar, guardas ese recuerdo como un tesoro.",
+      "theme": "NIGHT",
+      "image": "bosque_puente.jpg",
+      "ending": true,
+      "endingTitle": "La fiesta vista desde el puente"
     },
     "orilla": {
       "text": "La orilla termina en una cueva. Del interior llega un murmullo de agua y una luz que parpadea.",
       "theme": "NIGHT",
+      "image": "bosque_cueva.jpg",
       "choices": [
         { "text": "Entrar en la cueva", "next": "cueva" },
         { "text": "Llamar desde la entrada", "next": "eco" }
@@ -45,24 +82,76 @@
     "cueva": {
       "text": "Dentro de la cueva hay un río de estrellas que corre bajo tus pies. Una voz antigua te dice que el bosque te estaba esperando.",
       "theme": "SPACE",
+      "image": "bosque_cueva.jpg",
+      "choices": [
+        { "text": "Seguir el río de estrellas", "next": "rio_estrellas" },
+        { "text": "Salir y mirar el cielo", "next": "cielo" }
+      ]
+    },
+    "rio_estrellas": {
+      "text": "Caminas sobre el río de luz hasta una sala llena de constelaciones diminutas. Cada una guarda el nombre de un niño que pasó por allí.",
+      "theme": "SPACE",
+      "image": "bosque_cueva.jpg",
       "ending": true,
       "endingTitle": "El río de estrellas"
+    },
+    "cielo": {
+      "text": "Sales de la cueva justo cuando el cielo se llena de estrellas. Una de ellas se mueve y te sigue hasta casa.",
+      "theme": "SPACE",
+      "image": "bosque_cueva.jpg",
+      "ending": true,
+      "endingTitle": "La estrella que te sigue"
     },
     "eco": {
       "text": "Tu voz rebota por las paredes y responde con un coro de luciérnagas. El bosque te recuerda que nunca estás realmente solo.",
       "theme": "FOREST",
+      "image": "bosque.jpg",
+      "choices": [
+        { "text": "Seguir la voz", "next": "voz" },
+        { "text": "Cantar con el bosque", "next": "canto" }
+      ]
+    },
+    "voz": {
+      "text": "La voz te guía hasta un claro donde te esperan todos los animales del bosque. Te dan la bienvenida con un susurro enorme.",
+      "theme": "FOREST",
+      "image": "bosque.jpg",
       "ending": true,
       "endingTitle": "La voz del bosque"
     },
-    "arbol": {
-      "text": "El árbol enorme tiene una puerta de corteza. Al tocarla, se abre y muestra un jardín lleno de deseos escritos en hojas.",
+    "canto": {
+      "text": "Cantas una canción sencilla y el bosque entero te acompaña. Las luciérnagas forman tu nombre en el aire.",
       "theme": "FOREST",
+      "image": "bosque.jpg",
+      "ending": true,
+      "endingTitle": "La canción del bosque"
+    },
+    "arbol": {
+      "text": "El árbol enorme tiene una puerta de corteza. Al tocarla, se abre y muestra un jardín lleno de hojas que brillan.",
+      "theme": "FOREST",
+      "image": "bosque.jpg",
+      "choices": [
+        { "text": "Abrir la puerta de corteza", "next": "jardin_deseos" },
+        { "text": "Tocar el tronco", "next": "tronco" }
+      ]
+    },
+    "jardin_deseos": {
+      "text": "Dentro del árbol hay un jardín donde cada hoja guarda un deseo. Tomas una y, sin leerla, sabes que se cumplirá.",
+      "theme": "FOREST",
+      "image": "bosque.jpg",
       "ending": true,
       "endingTitle": "El árbol de los deseos"
+    },
+    "tronco": {
+      "text": "Al tocar el tronco sientes los latidos lentos del árbol. Desde ese día, cada vez que vuelves al bosque, el camino se abre solo.",
+      "theme": "FOREST",
+      "image": "bosque.jpg",
+      "ending": true,
+      "endingTitle": "El corazón del árbol"
     },
     "casa": {
       "text": "Vuelves a casa con una hoja luminosa en el bolsillo. Esa noche sueñas con el bosque y sus luces te acompañan.",
       "theme": "CASTLE",
+      "image": "bosque.jpg",
       "ending": true,
       "endingTitle": "Un sueño para contar"
     }

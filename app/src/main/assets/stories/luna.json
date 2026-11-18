@@ -7,6 +7,7 @@
     "inicio": {
       "text": "La luna se cayó del cielo y quedó atrapada entre los árboles. Está asustada y no recuerda el camino de vuelta.",
       "theme": "NIGHT",
+      "image": "luna.jpg",
       "choices": [
         { "text": "Ayudarla a subir", "next": "luna" },
         { "text": "Buscar al búho sabio", "next": "buho" }
@@ -15,6 +16,7 @@
     "luna": {
       "text": "La luna pesa menos de lo que parece, pero el cielo está muy alto. Necesitas una idea brillante.",
       "theme": "NIGHT",
+      "image": "luna.jpg",
       "choices": [
         { "text": "Pedir ayuda a las estrellas", "next": "estrellas" },
         { "text": "Construir una escalera de nubes", "next": "escalera" }
@@ -23,34 +25,135 @@
     "buho": {
       "text": "El búho sabio te dice que hay dos caminos: el río de plata o la montaña de los ecos.",
       "theme": "NIGHT",
+      "image": "luna.jpg",
       "choices": [
         { "text": "Seguir el río de plata", "next": "rio" },
         { "text": "Subir la montaña", "next": "montana" }
       ]
     },
     "estrellas": {
+      "text": "Las estrellas se reúnen alrededor de la luna y esperan una señal tuya.",
+      "theme": "SPACE",
+      "image": "luna_cielo.jpg",
+      "choices": [
+        { "text": "Formar una cadena de luz", "next": "cadena" },
+        { "text": "Pedir un deseo", "next": "deseo" }
+      ]
+    },
+    "cadena": {
       "text": "Las estrellas forman una cadena de luz y devuelven la luna al cielo. Esa noche todo el pueblo ve una luna más brillante.",
       "theme": "SPACE",
+      "image": "luna_cielo.jpg",
       "ending": true,
-      "endingTitle": "La luna vuelve al cielo"
+      "endingTitle": "La cadena de estrellas"
+    },
+    "deseo": {
+      "text": "Cierras los ojos y pides un deseo. Cuando los abres, la luna ya está arriba y te guiña un ojo.",
+      "theme": "SPACE",
+      "image": "luna_cielo.jpg",
+      "ending": true,
+      "endingTitle": "El deseo de la luna"
     },
     "escalera": {
-      "text": "La escalera de nubes es resbaladiza, pero la luna se ríe por primera vez. Decide quedarse a vivir en el lago para siempre.",
+      "text": "La escalera de nubes es resbaladiza, pero la luna se ríe por primera vez.",
       "theme": "NIGHT",
+      "image": "luna.jpg",
+      "choices": [
+        { "text": "Subir con la luna", "next": "subir" },
+        { "text": "Quedarse en el lago", "next": "lago" }
+      ]
+    },
+    "subir": {
+      "text": "Subes con la luna hasta lo alto del cielo. Desde allí ves el bosque, el pueblo y tu casa como un mapa pequeño.",
+      "theme": "SPACE",
+      "image": "luna_cielo.jpg",
+      "ending": true,
+      "endingTitle": "La luna y tú en el cielo"
+    },
+    "lago": {
+      "text": "La luna decide quedarse a vivir en el lago. Cada noche se refleja en el agua y el lago brilla como un espejo.",
+      "theme": "NIGHT",
+      "image": "luna.jpg",
       "ending": true,
       "endingTitle": "La luna se queda en el lago"
     },
     "rio": {
       "text": "El río de plata te lleva hasta un faro abandonado. La luna se instala en lo alto y se convierte en una luz que guía a los viajeros.",
       "theme": "SEA",
+      "image": "mar.jpg",
+      "choices": [
+        { "text": "Entrar al faro", "next": "faro" },
+        { "text": "Seguir el río hasta el mar", "next": "mar_final" }
+      ]
+    },
+    "faro": {
+      "text": "Dentro del faro hay una escalera de caracol y una lámpara enorme apagada. La luna te mira, esperando.",
+      "theme": "SEA",
+      "image": "mar.jpg",
+      "choices": [
+        { "text": "Encender la luz", "next": "faro_ending" },
+        { "text": "Subir al balcón", "next": "balcon" }
+      ]
+    },
+    "faro_ending": {
+      "text": "Enciendes la luz y el faro barre el mar con un haz dorado. La luna se queda en la lámpara, feliz de guiar barcos.",
+      "theme": "SEA",
+      "image": "mar.jpg",
       "ending": true,
       "endingTitle": "El faro de la luna"
     },
+    "balcon": {
+      "text": "Desde el balcón ves el río de plata llegar al mar. La luna te acompaña y promete visitarte cada noche.",
+      "theme": "SEA",
+      "image": "mar.jpg",
+      "ending": true,
+      "endingTitle": "El balcón de la luna"
+    },
+    "mar_final": {
+      "text": "El río te deja en una playa tranquila. La luna se hunde despacio en el horizonte y el agua se llena de destellos.",
+      "theme": "SEA",
+      "image": "mar_amanecer.jpg",
+      "ending": true,
+      "endingTitle": "El mar de la luna"
+    },
     "montana": {
-      "text": "Desde la montaña, la luna encuentra un hueco entre las nubes. Sube despacio y promete visitarte cada noche.",
-      "theme": "CASTLE",
+      "text": "Subes la montaña de los ecos. Cada paso suena como una campana y las nubes se acercan.",
+      "theme": "NIGHT",
+      "image": "luna.jpg",
+      "choices": [
+        { "text": "Descansar en la cima", "next": "cima" },
+        { "text": "Llamar a las nubes", "next": "nubes" }
+      ]
+    },
+    "cima": {
+      "text": "Desde la cima, la luna encuentra un hueco entre las nubes. Sube despacio y promete visitarte cada noche.",
+      "theme": "SPACE",
+      "image": "luna_cielo.jpg",
       "ending": true,
       "endingTitle": "La luna entre las montañas"
+    },
+    "nubes": {
+      "text": "Las nubes bajan a tu lado y se ofrecen a llevaros. La luna se sienta en una y te invita a subir.",
+      "theme": "SPACE",
+      "image": "luna_cielo.jpg",
+      "choices": [
+        { "text": "Viajar con las nubes", "next": "viaje" },
+        { "text": "Volver al bosque", "next": "bosque_final" }
+      ]
+    },
+    "viaje": {
+      "text": "Viajas con la luna sobre nubes rosadas. Al amanecer, ella vuelve a su lugar y tú despiertas en tu cama.",
+      "theme": "SPACE",
+      "image": "luna_cielo.jpg",
+      "ending": true,
+      "endingTitle": "El viaje de las nubes"
+    },
+    "bosque_final": {
+      "text": "Las nubes os dejan en el bosque. La luna se queda entre los árboles, pero ya no está triste: tiene compañía.",
+      "theme": "NIGHT",
+      "image": "luna.jpg",
+      "ending": true,
+      "endingTitle": "La luna en el bosque"
     }
   }
 }

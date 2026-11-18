@@ -1,6 +1,9 @@
 package com.ejemplo.cuentostv.data
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.LruCache
 import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
@@ -18,7 +21,12 @@ class StoryRepository(private val context: Context) {
 
     private val remoteDir = File(context.filesDir, "remote")
     private val remoteStoriesDir = File(remoteDir, "stories")
+    private val remoteImagesDir = File(remoteDir, "images")
     private val remoteCatalogFile = File(remoteDir, "catalog.json")
+
+    private val imageCache = object : LruCache<String, Bitmap>(12) {
+        override fun sizeOf(key: String, value: Bitmap): Int = 1
+    }
 
     data class RemoteRefresh(
         val items: List<StoryItem>,
@@ -75,6 +83,26 @@ class StoryRepository(private val context: Context) {
         if (StoryValidator.isPlayable(story)) story else null
     }
 
+    suspend fun loadImage(item: StoryItem, name: String): Bitmap? = withContext(Dispatchers.IO) {
+        val fileName = safeName(name)
+        val key = "${if (item.remote) "r" else "a"}:$fileName"
+        imageCache.get(key)?.let { return@withContext it }
+
+        val bitmap = runCatching {
+            val bytes = if (item.remote) {
+                val file = File(remoteImagesDir, fileName)
+                if (!file.exists()) return@withContext null
+                file.readBytes()
+            } else {
+                context.assets.open("stories/images/$fileName").use { it.readBytes() }
+            }
+            decode(bytes)
+        }.getOrNull() ?: return@withContext null
+
+        imageCache.put(key, bitmap)
+        bitmap
+    }
+
     suspend fun refreshRemote(): RemoteRefresh = withContext(Dispatchers.IO) {
         val catalogText = runCatching { fetchText(RemoteConfig.CATALOG_URL) }.getOrNull()
             ?: return@withContext RemoteRefresh(
@@ -101,6 +129,7 @@ class StoryRepository(private val context: Context) {
 
         remoteDir.mkdirs()
         remoteStoriesDir.mkdirs()
+        remoteImagesDir.mkdirs()
 
         val valid = mutableListOf<StorySummary>()
         val errors = mutableListOf<String>()
@@ -122,6 +151,7 @@ class StoryRepository(private val context: Context) {
             }
 
             File(remoteStoriesDir, summary.file).writeText(storyText)
+            downloadImages(summary, story)
             valid += summary
         }
 
@@ -154,7 +184,43 @@ class StoryRepository(private val context: Context) {
         )
     }
 
-    private fun fetchText(url: String): String {
+    private fun downloadImages(summary: StorySummary, story: Story) {
+        val names = buildSet {
+            summary.cover?.let { add(it) }
+            story.nodes.values.forEach { node -> node.image?.let { add(it) } }
+        }
+
+        names.forEach { name ->
+            val target = File(remoteImagesDir, safeName(name))
+            if (target.exists() && target.length() > 0L) return@forEach
+            runCatching {
+                target.writeBytes(fetchBytes(RemoteConfig.imageUrl(safeName(name))))
+            }
+        }
+    }
+
+    private fun decode(bytes: ByteArray): Bitmap? {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.size, bounds)
+        if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return null
+
+        var sample = 1
+        while (bounds.outWidth / (sample * 2) >= 1280) sample *= 2
+
+        val options = BitmapFactory.Options().apply {
+            inSampleSize = sample
+            inPreferredConfig = Bitmap.Config.RGB_565
+        }
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size, options)
+    }
+
+    private fun safeName(name: String): String =
+        name.substringAfterLast('/').substringAfterLast('\\')
+
+    private fun fetchText(url: String): String =
+        fetchBytes(url).toString(Charsets.UTF_8)
+
+    private fun fetchBytes(url: String): ByteArray {
         val connection = (URL(url).openConnection() as HttpURLConnection).apply {
             connectTimeout = 8_000
             readTimeout = 8_000
@@ -169,7 +235,7 @@ class StoryRepository(private val context: Context) {
             if (code !in 200..299) {
                 error("HTTP $code")
             }
-            connection.inputStream.bufferedReader().use { it.readText() }
+            connection.inputStream.use { it.readBytes() }
         } finally {
             connection.disconnect()
         }

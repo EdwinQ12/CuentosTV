@@ -2,6 +2,7 @@
 
 package com.ejemplo.cuentostv.ui.screens
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +27,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -36,9 +38,9 @@ import androidx.tv.material3.Text
 import com.ejemplo.cuentostv.data.StoryItem
 import com.ejemplo.cuentostv.data.StoryTheme
 import com.ejemplo.cuentostv.ui.CuentosUiState
+import com.ejemplo.cuentostv.ui.components.StoryImage
 import com.ejemplo.cuentostv.ui.theme.StoryBackground
 import com.ejemplo.cuentostv.ui.theme.TvAccent
-import com.ejemplo.cuentostv.ui.theme.TvBackground
 import com.ejemplo.cuentostv.ui.theme.TvMuted
 import com.ejemplo.cuentostv.ui.theme.TvSurface
 import com.ejemplo.cuentostv.ui.theme.TvText
@@ -48,6 +50,7 @@ import com.ejemplo.cuentostv.ui.theme.gradientColors
 @Composable
 fun HomeScreen(
     state: CuentosUiState,
+    loadImage: suspend (StoryItem, String) -> Bitmap?,
     onStory: (String) -> Unit,
     onContinue: () -> Unit,
     onRefresh: () -> Unit,
@@ -67,7 +70,7 @@ fun HomeScreen(
     StoryBackground(theme = StoryTheme.SPACE) {
         if (state.isLoading) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("Cargando cuentos...", color = TvText, fontSize = 28.sp)
+                Text("Cargando cuentos...", color = TvText, fontSize = 26.sp)
             }
             return@StoryBackground
         }
@@ -117,6 +120,7 @@ fun HomeScreen(
                 item {
                     ContinueCard(
                         item = continueItem,
+                        loadImage = loadImage,
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(112.dp)
@@ -151,13 +155,13 @@ fun HomeScreen(
                     Text(
                         text = "No hay cuentos disponibles. Revisa los archivos locales.",
                         color = TvMuted,
-                        fontSize = 24.sp
+                        fontSize = 20.sp
                     )
                 }
             } else {
                 item {
                     LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(20.dp)
+                        horizontalArrangement = Arrangement.spacedBy(18.dp)
                     ) {
                         itemsIndexed(
                             items = state.stories,
@@ -166,9 +170,10 @@ fun HomeScreen(
                             StoryCard(
                                 item = item,
                                 hasProgress = state.progress[item.summary.id] != null,
+                                loadImage = loadImage,
                                 modifier = Modifier
                                     .width(280.dp)
-                                    .height(156.dp)
+                                    .height(170.dp)
                                     .then(
                                         if (index == 0 && continueItem == null) {
                                             Modifier.focusRequester(firstFocus)
@@ -198,6 +203,7 @@ fun HomeScreen(
 @Composable
 private fun ContinueCard(
     item: StoryItem,
+    loadImage: suspend (StoryItem, String) -> Bitmap?,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -205,18 +211,41 @@ private fun ContinueCard(
         onClick = onClick,
         modifier = modifier
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    Brush.horizontalGradient(
-                        listOf(TvSurface, item.summary.theme.gradientColors().first())
-                    )
-                )
-                .padding(22.dp)
-        ) {
-            Row(
+        Box(modifier = Modifier.fillMaxSize()) {
+            StoryImage(
+                item = item,
+                name = item.summary.cover,
+                loadImage = loadImage,
                 modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                listOf(TvSurface, item.summary.theme.gradientColors().first())
+                            )
+                        )
+                )
+            }
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.horizontalGradient(
+                            listOf(
+                                Color(0xF205030F),
+                                Color(0xC805030F),
+                                Color(0x3305030F)
+                            )
+                        )
+                    )
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 22.dp, vertical = 14.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
@@ -255,6 +284,7 @@ private fun ContinueCard(
 private fun StoryCard(
     item: StoryItem,
     hasProgress: Boolean,
+    loadImage: suspend (StoryItem, String) -> Bitmap?,
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
@@ -262,13 +292,38 @@ private fun StoryCard(
         onClick = onClick,
         modifier = modifier
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Brush.verticalGradient(item.summary.theme.gradientColors()))
-                .padding(16.dp)
-        ) {
-            Column(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            StoryImage(
+                item = item,
+                name = item.summary.cover,
+                loadImage = loadImage,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxSize()
+                        .background(Brush.verticalGradient(item.summary.theme.gradientColors()))
+                )
+            }
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Color(0x33000000),
+                                Color(0x66000000),
+                                Color(0xF205030F)
+                            )
+                        )
+                    )
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(16.dp)
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically

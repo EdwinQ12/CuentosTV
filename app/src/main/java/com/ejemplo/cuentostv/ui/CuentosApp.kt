@@ -1,5 +1,8 @@
 package com.ejemplo.cuentostv.ui
 
+import android.content.Intent
+import android.provider.Settings
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -25,8 +28,8 @@ import com.ejemplo.cuentostv.ui.screens.DetailScreen
 import com.ejemplo.cuentostv.ui.screens.HomeScreen
 import com.ejemplo.cuentostv.ui.screens.ReaderScreen
 import com.ejemplo.cuentostv.ui.screens.SettingsScreen
+import com.ejemplo.cuentostv.ui.screens.VoicesScreen
 import com.ejemplo.cuentostv.ui.theme.CuentosTvTheme
-import com.ejemplo.cuentostv.ui.theme.TvMuted
 import com.ejemplo.cuentostv.ui.theme.TvSurface
 import kotlinx.coroutines.delay
 
@@ -39,6 +42,13 @@ fun CuentosApp() {
 
     DisposableEffect(Unit) {
         onDispose { narrator.shutdown() }
+    }
+
+    LaunchedEffect(state.settings.voiceName, state.settings.speechRate) {
+        narrator.configure(
+            voiceName = state.settings.voiceName,
+            speechRate = state.settings.speechRate.value
+        )
     }
 
     BackHandler(enabled = state.screen != Screen.Home) {
@@ -57,6 +67,7 @@ fun CuentosApp() {
             when (val screen = state.screen) {
                 Screen.Home -> HomeScreen(
                     state = state,
+                    loadImage = viewModel::loadImage,
                     onStory = { storyId -> viewModel.openStory(storyId) },
                     onContinue = viewModel::continueLastStory,
                     onRefresh = viewModel::refreshRemote,
@@ -67,6 +78,7 @@ fun CuentosApp() {
                     if (state.currentItem != null) {
                         DetailScreen(
                             state = state,
+                            loadImage = viewModel::loadImage,
                             onStart = { viewModel.startStory(fromBeginning = false) },
                             onRestart = { viewModel.startStory(fromBeginning = true) },
                             onBack = viewModel::back
@@ -74,6 +86,7 @@ fun CuentosApp() {
                     } else {
                         HomeScreen(
                             state = state,
+                            loadImage = viewModel::loadImage,
                             onStory = { storyId -> viewModel.openStory(storyId) },
                             onContinue = viewModel::continueLastStory,
                             onRefresh = viewModel::refreshRemote,
@@ -87,6 +100,7 @@ fun CuentosApp() {
                         ReaderScreen(
                             state = state,
                             narrator = narrator,
+                            loadImage = viewModel::loadImage,
                             onChoose = viewModel::choose,
                             onRestart = viewModel::restartStory,
                             onHome = viewModel::goHome,
@@ -96,6 +110,7 @@ fun CuentosApp() {
                     } else {
                         HomeScreen(
                             state = state,
+                            loadImage = viewModel::loadImage,
                             onStory = { storyId -> viewModel.openStory(storyId) },
                             onContinue = viewModel::continueLastStory,
                             onRefresh = viewModel::refreshRemote,
@@ -106,8 +121,41 @@ fun CuentosApp() {
 
                 Screen.Settings -> SettingsScreen(
                     settings = state.settings,
+                    voiceLabel = narrator.activeVoiceLabel,
                     onToggleNarration = viewModel::toggleNarration,
+                    onOpenVoices = viewModel::openVoices,
+                    onCycleRate = viewModel::cycleSpeechRate,
+                    onTestVoice = narrator::speakSample,
                     onToggleTextScale = viewModel::toggleTextScale,
+                    onBack = viewModel::back
+                )
+
+                Screen.Voices -> VoicesScreen(
+                    voices = narrator.voices,
+                    selected = state.settings.voiceName,
+                    onSelect = viewModel::selectVoice,
+                    onTest = narrator::speakSample,
+                    onSystemSettings = {
+                        val opened = runCatching {
+                            context.startActivity(
+                                Intent("com.android.settings.TTS_SETTINGS")
+                                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            )
+                        }.isSuccess
+                        if (!opened) {
+                            runCatching {
+                                context.startActivity(
+                                    Intent(Settings.ACTION_SETTINGS)
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                )
+                            }
+                            Toast.makeText(
+                                context,
+                                "Abre Ajustes > Sistema > Idiomas > Salida de texto a voz",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    },
                     onBack = viewModel::back
                 )
             }
