@@ -5,6 +5,7 @@
   "start": "inicio",
   "nodes": {
     "inicio": {
+      "audio": "reloj_inicio.mp3",
       "text": "En el desván encuentras un reloj de pared que se detuvo hace muchos años. Cuando lo tocas, las manecillas tiemblan y una puerta diminuta aparece en su costado.",
       "theme": "CASTLE",
       "image": "reloj.jpg",
@@ -14,6 +15,7 @@
       ]
     },
     "cuerda": {
+      "audio": "reloj_cuerda.mp3",
       "text": "El reloj suena una vez, dos veces, tres veces. Con cada campanada se abre una puerta en la pared del desván y aparece un jardín lleno de relojes con forma de flor.",
       "theme": "CASTLE",
       "image": "reloj.jpg",
@@ -23,6 +25,7 @@
       ]
     },
     "jardin": {
+      "audio": "reloj_jardin.mp3",
       "text": "Cada flor del jardín marca una hora distinta. Al acercarte, una de ellas se abre y muestra un recuerdo del abuelo.",
       "theme": "FOREST",
       "image": "reloj.jpg",
@@ -32,6 +35,7 @@
       ]
     },
     "flor": {
+      "audio": "reloj_flor.mp3",
       "text": "La flor te ofrece dos recuerdos: el día que el abuelo se rio tanto que lloró, o una tarde entera en su taller.",
       "theme": "FOREST",
       "image": "reloj.jpg",
@@ -41,6 +45,7 @@
       ]
     },
     "risa": {
+      "audio": "reloj_risa.mp3",
       "text": "El recuerdo se abre como una ventana: el abuelo riéndose con una taza en la mano. Sientes su risa en el pecho y el jardín entero florece.",
       "theme": "FOREST",
       "image": "reloj.jpg",
@@ -48,6 +53,7 @@
       "endingTitle": "La risa del abuelo"
     },
     "taller_recuerdo": {
+      "audio": "reloj_taller_recuerdo.mp3",
       "text": "Ves al abuelo joven, inclinado sobre un reloj, con las manos llenas de grasa y una sonrisa enorme. Ahora entiendes por qué amaba tanto ese desván.",
       "theme": "NIGHT",
       "image": "reloj.jpg",
@@ -55,6 +61,7 @@
       "endingTitle": "La tarde del taller"
     },
     "recorrido": {
+      "audio": "reloj_recorrido.mp3",
       "text": "Caminas entre las flores hasta llegar a un reloj más alto que los demás. Sus manecillas giran al revés y, al fondo del jardín, alguien tararea una canción.",
       "theme": "FOREST",
       "image": "reloj.jpg",
@@ -64,6 +71,7 @@
       ]
     },
     "reloj_alto": {
+      "audio": "reloj_reloj_alto.mp3",
       "text": "Tocas el reloj más alto y todas las flores dan la misma hora. El jardín se queda quieto, como si te estuviera mirando.",
       "theme": "FOREST",
       "image": "reloj.jpg",
@@ -71,6 +79,7 @@
       "endingTitle": "El reloj más alto"
     },
     "escuchar": {
+      "audio": "reloj_escuchar.mp3",
       "text": "Te sientas en el pasto y escuchas. La canción es la que el abuelo silbaba mientras arreglaba relojes, y el jardín la canta contigo.",
       "theme": "FOREST",
       "image": "reloj.jpg",
@@ -78,6 +87,7 @@
       "endingTitle": "La canción del jardín"
     },
     "cerrar": {
+      "audio": "reloj_cerrar.mp3",
       "text": "Cierras la puerta y el reloj vuelve a latir despacio. Desde ese día, cada vez que el desván queda en silencio, escuchas un tic tac cálido que te acompaña.",
       "theme": "CASTLE",
       "image": "reloj.jpg",
@@ -85,6 +95,7 @@
       "endingTitle": "El tiempo quieto"
     },
     "puerta": {
+      "audio": "reloj_puerta.mp3",
       "text": "Al otro lado de la puerta hay una escalera de engranajes que baja hasta un taller diminuto. Un ratón con delantal te saluda y te ofrece un destornillador del tamaño de un dedo.",
       "theme": "NIGHT",
       "image": "reloj.jpg",
@@ -94,6 +105,7 @@
       ]
     },
     "raton": {
+      "audio": "reloj_raton.mp3",
       "text": "El ratón te explica que el reloj del desván necesita un último ajuste. Te presta una lupa y te pide que sostengas un engranaje.",
       "theme": "NIGHT",
       "image": "reloj.jpg",
@@ -103,6 +115,7 @@
       ]
     },
     "engranaje": {
+      "audio": "reloj_engranaje.mp3",
       "text": "Con tu ayuda, el ratón ajusta el último engranaje. El reloj del desván vuelve a funcionar y el taller entero celebra con una lluvia de pequeñas tuercas doradas.",
       "theme": "NIGHT",
       "image": "reloj.jpg",
@@ -110,6 +123,7 @@
       "endingTitle": "El taller de los engranajes"
     },
     "prueba": {
+      "audio": "reloj_prueba.mp3",
       "text": "El reloj empieza a andar y las campanadas suenan tan fuerte que el taller entero vibra. El ratón te mira, esperando tu decisión.",
       "theme": "NIGHT",
       "image": "reloj.jpg",
@@ -119,6 +133,7 @@
       ]
     },
     "hora": {
+      "audio": "reloj_hora.mp3",
       "text": "Ajustas las manecillas a la hora exacta. El reloj suena una vez, limpio y claro, y en el desván el abuelo sonríe desde la puerta.",
       "theme": "CASTLE",
       "image": "reloj.jpg",
@@ -126,6 +141,7 @@
       "endingTitle": "La hora exacta"
     },
     "suena": {
+      "audio": "reloj_suena.mp3",
       "text": "Dejas que el reloj suene solo. Las campanadas llenan la casa y, por un momento, todo parece volver a su sitio.",
       "theme": "CASTLE",
       "image": "reloj.jpg",
@@ -133,6 +149,7 @@
       "endingTitle": "La casa que suena"
     },
     "arreglo": {
+      "audio": "reloj_arreglo.mp3",
       "text": "El ratón sube al desván contigo y arregla el reloj con paciencia. Cuando suena la primera campanada, el abuelo aparece en la puerta y sonríe sin decir nada.",
       "theme": "CASTLE",
       "image": "reloj.jpg",
