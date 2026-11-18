@@ -8,7 +8,8 @@
       "age": "7+",
       "theme": "CASTLE",
       "file": "reloj.json",
-      "version": 1
+      "version": 2,
+      "cover": "reloj.jpg"
     }
   ]
 }

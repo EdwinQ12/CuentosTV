@@ -7,6 +7,7 @@
     "inicio": {
       "text": "En el desván encuentras un reloj de pared que se detuvo hace muchos años. Cuando lo tocas, las manecillas tiemblan y una puerta diminuta aparece en su costado.",
       "theme": "CASTLE",
+      "image": "reloj.jpg",
       "choices": [
         { "text": "Darle cuerda al reloj", "next": "cuerda" },
         { "text": "Mirar por la puerta diminuta", "next": "puerta" }
@@ -15,40 +16,126 @@
     "cuerda": {
       "text": "El reloj suena una vez, dos veces, tres veces. Con cada campanada se abre una puerta en la pared del desván y aparece un jardín lleno de relojes con forma de flor.",
       "theme": "CASTLE",
+      "image": "reloj.jpg",
       "choices": [
         { "text": "Entrar al jardín", "next": "jardin" },
         { "text": "Cerrar la puerta y escuchar", "next": "cerrar" }
       ]
     },
+    "jardin": {
+      "text": "Cada flor del jardín marca una hora distinta. Al acercarte, una de ellas se abre y muestra un recuerdo del abuelo.",
+      "theme": "FOREST",
+      "image": "reloj.jpg",
+      "choices": [
+        { "text": "Elegir una flor", "next": "flor" },
+        { "text": "Recorrer el jardín", "next": "recorrido" }
+      ]
+    },
+    "flor": {
+      "text": "La flor te ofrece dos recuerdos: el día que el abuelo se rio tanto que lloró, o una tarde entera en su taller.",
+      "theme": "FOREST",
+      "image": "reloj.jpg",
+      "choices": [
+        { "text": "Ver el recuerdo de la risa", "next": "risa" },
+        { "text": "Ver el recuerdo del taller", "next": "taller_recuerdo" }
+      ]
+    },
+    "risa": {
+      "text": "El recuerdo se abre como una ventana: el abuelo riéndose con una taza en la mano. Sientes su risa en el pecho y el jardín entero florece.",
+      "theme": "FOREST",
+      "image": "reloj.jpg",
+      "ending": true,
+      "endingTitle": "La risa del abuelo"
+    },
+    "taller_recuerdo": {
+      "text": "Ves al abuelo joven, inclinado sobre un reloj, con las manos llenas de grasa y una sonrisa enorme. Ahora entiendes por qué amaba tanto ese desván.",
+      "theme": "NIGHT",
+      "image": "reloj.jpg",
+      "ending": true,
+      "endingTitle": "La tarde del taller"
+    },
+    "recorrido": {
+      "text": "Caminas entre las flores hasta llegar a un reloj más alto que los demás. Sus manecillas giran al revés y, al fondo del jardín, alguien tararea una canción.",
+      "theme": "FOREST",
+      "image": "reloj.jpg",
+      "choices": [
+        { "text": "Llegar al reloj más alto", "next": "reloj_alto" },
+        { "text": "Sentarte a escuchar", "next": "escuchar" }
+      ]
+    },
+    "reloj_alto": {
+      "text": "Tocas el reloj más alto y todas las flores dan la misma hora. El jardín se queda quieto, como si te estuviera mirando.",
+      "theme": "FOREST",
+      "image": "reloj.jpg",
+      "ending": true,
+      "endingTitle": "El reloj más alto"
+    },
+    "escuchar": {
+      "text": "Te sientas en el pasto y escuchas. La canción es la que el abuelo silbaba mientras arreglaba relojes, y el jardín la canta contigo.",
+      "theme": "FOREST",
+      "image": "reloj.jpg",
+      "ending": true,
+      "endingTitle": "La canción del jardín"
+    },
+    "cerrar": {
+      "text": "Cierras la puerta y el reloj vuelve a latir despacio. Desde ese día, cada vez que el desván queda en silencio, escuchas un tic tac cálido que te acompaña.",
+      "theme": "CASTLE",
+      "image": "reloj.jpg",
+      "ending": true,
+      "endingTitle": "El tiempo quieto"
+    },
     "puerta": {
       "text": "Al otro lado de la puerta hay una escalera de engranajes que baja hasta un taller diminuto. Un ratón con delantal te saluda y te ofrece un destornillador del tamaño de un dedo.",
       "theme": "NIGHT",
+      "image": "reloj.jpg",
       "choices": [
         { "text": "Ayudar al ratón con el reloj", "next": "raton" },
         { "text": "Pedirle que arregle el reloj del abuelo", "next": "arreglo" }
       ]
     },
-    "jardin": {
-      "text": "Las flores del jardín marcan cada una una hora distinta. Si eliges una, puedes ver un recuerdo del abuelo: su risa, su taller, su primer reloj. El jardín te deja llevarte uno.",
-      "theme": "FOREST",
-      "ending": true,
-      "endingTitle": "El jardín de las horas"
-    },
-    "cerrar": {
-      "text": "Cierras la puerta y el reloj vuelve a latir despacio. Desde ese día, cada vez que el desván queda en silencio, escuchas un tic tac cálido que te acompaña.",
-      "theme": "CASTLE",
-      "ending": true,
-      "endingTitle": "El tiempo quieto"
-    },
     "raton": {
+      "text": "El ratón te explica que el reloj del desván necesita un último ajuste. Te presta una lupa y te pide que sostengas un engranaje.",
+      "theme": "NIGHT",
+      "image": "reloj.jpg",
+      "choices": [
+        { "text": "Ajustar el último engranaje", "next": "engranaje" },
+        { "text": "Probar el reloj", "next": "prueba" }
+      ]
+    },
+    "engranaje": {
       "text": "Con tu ayuda, el ratón ajusta el último engranaje. El reloj del desván vuelve a funcionar y el taller entero celebra con una lluvia de pequeñas tuercas doradas.",
       "theme": "NIGHT",
+      "image": "reloj.jpg",
       "ending": true,
       "endingTitle": "El taller de los engranajes"
+    },
+    "prueba": {
+      "text": "El reloj empieza a andar y las campanadas suenan tan fuerte que el taller entero vibra. El ratón te mira, esperando tu decisión.",
+      "theme": "NIGHT",
+      "image": "reloj.jpg",
+      "choices": [
+        { "text": "Dar la hora exacta", "next": "hora" },
+        { "text": "Dejar que suene solo", "next": "suena" }
+      ]
+    },
+    "hora": {
+      "text": "Ajustas las manecillas a la hora exacta. El reloj suena una vez, limpio y claro, y en el desván el abuelo sonríe desde la puerta.",
+      "theme": "CASTLE",
+      "image": "reloj.jpg",
+      "ending": true,
+      "endingTitle": "La hora exacta"
+    },
+    "suena": {
+      "text": "Dejas que el reloj suene solo. Las campanadas llenan la casa y, por un momento, todo parece volver a su sitio.",
+      "theme": "CASTLE",
+      "image": "reloj.jpg",
+      "ending": true,
+      "endingTitle": "La casa que suena"
     },
     "arreglo": {
       "text": "El ratón sube al desván contigo y arregla el reloj con paciencia. Cuando suena la primera campanada, el abuelo aparece en la puerta y sonríe sin decir nada.",
       "theme": "CASTLE",
+      "image": "reloj.jpg",
       "ending": true,
       "endingTitle": "La hora de volver"
     }
