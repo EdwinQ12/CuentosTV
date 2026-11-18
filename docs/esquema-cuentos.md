@@ -78,6 +78,7 @@ roto, el cuento no se abre.
 | `text` | texto | sí | Texto que se lee y se narra |
 | `theme` | enum | no | Tema visual de la escena |
 | `image` | texto | no | Ilustración de la escena, relativa a `images/` |
+| `audio` | texto | no | Narración grabada, relativa a `audio/` |
 | `choices` | lista | si no es final | Entre 2 y 4 opciones recomendadas |
 | `choices[].text` | texto | sí | Texto del botón |
 | `choices[].next` | texto | sí | ID de la escena destino; debe existir |
@@ -94,6 +95,19 @@ roto, el cuento no se abre.
 - El nombre debe ser un archivo simple; no se admiten rutas con carpetas.
 
 La app valida en las pruebas que todas las imágenes referenciadas existan.
+
+## Audio
+
+- **Locales:** `app/src/main/assets/stories/audio/<archivo>`
+- **Remotos:** `tv-content/audio/<archivo>`; se descargan con **Actualizar
+  cuentos** y se guardan en `filesDir/remote/audio`.
+- Formato recomendado: MP3 mono, 22–44 kHz, 64 kbps.
+- Convención de nombre: `<idCuento>_<idEscena>.mp3`.
+- Si la escena no tiene `audio`, la app usa el TTS del televisor.
+- El lector muestra **Pausar / Seguir / Repetir** cuando hay audio grabado.
+
+La app valida en las pruebas que todas las imágenes y audios referenciados
+existan.
 
 ## Reglas de validación
 

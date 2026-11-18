@@ -5,6 +5,7 @@
   "start": "inicio",
   "nodes": {
     "inicio": {
+      "audio": "mar_inicio.mp3",
       "text": "Encuentras un mapa antiguo dentro de una botella. Tiene dos marcas: un faro y una isla que solo aparece al amanecer.",
       "theme": "SEA",
       "image": "mar.jpg",
@@ -14,6 +15,7 @@
       ]
     },
     "faro": {
+      "audio": "mar_faro.mp3",
       "text": "El faro está cubierto de conchas y tiene una puerta entreabierta. Una luz gira lentamente en lo alto.",
       "theme": "SEA",
       "image": "mar_faro.jpg",
@@ -23,6 +25,7 @@
       ]
     },
     "amanecer": {
+      "audio": "mar_amanecer.mp3",
       "text": "Al amanecer, una ballena enorme nada junto a tu bote. Parece querer mostrarte algo.",
       "theme": "SEA",
       "image": "mar_amanecer.jpg",
@@ -32,6 +35,7 @@
       ]
     },
     "dentro": {
+      "audio": "mar_dentro.mp3",
       "text": "Dentro del faro hay un cofre lleno de conchas que cantan. Cada una guarda la voz de un marinero.",
       "theme": "NIGHT",
       "image": "mar_faro.jpg",
@@ -41,6 +45,7 @@
       ]
     },
     "cofre": {
+      "audio": "mar_cofre.mp3",
       "text": "Abres el cofre y las conchas cantan a coro. Reconoces la voz de tu abuelo y sonríes sin poder evitarlo.",
       "theme": "NIGHT",
       "image": "mar_faro.jpg",
@@ -48,6 +53,7 @@
       "endingTitle": "El tesoro de las conchas"
     },
     "torre": {
+      "audio": "mar_torre.mp3",
       "text": "La torre tiene una lámpara enorme y un telescopio apuntando al mar.",
       "theme": "SEA",
       "image": "mar_faro.jpg",
@@ -57,6 +63,7 @@
       ]
     },
     "luz": {
+      "audio": "mar_luz.mp3",
       "text": "Enciendes la luz y el faro ilumina toda la costa. Los barcos lejanos responden con destellos.",
       "theme": "SEA",
       "image": "mar.jpg",
@@ -64,6 +71,7 @@
       "endingTitle": "La luz del faro"
     },
     "telescopio": {
+      "audio": "mar_telescopio.mp3",
       "text": "Por el telescopio ves una isla que no está en ningún mapa. Al día siguiente, tu barco navega hacia ella.",
       "theme": "SEA",
       "image": "mar_amanecer.jpg",
@@ -71,6 +79,7 @@
       "endingTitle": "La isla invisible"
     },
     "puerta": {
+      "audio": "mar_puerta.mp3",
       "text": "La puerta se abre sola. Una sirena te saluda y te ofrece un mapa nuevo, esta vez hacia las estrellas.",
       "theme": "CASTLE",
       "image": "mar.jpg",
@@ -80,6 +89,7 @@
       ]
     },
     "mapa_estrellas": {
+      "audio": "mar_mapa_estrellas.mp3",
       "text": "El mapa de la sirena brilla en la oscuridad. Sigues sus líneas y llegas a una cala donde el mar refleja constelaciones.",
       "theme": "SPACE",
       "image": "mar_amanecer.jpg",
@@ -87,6 +97,7 @@
       "endingTitle": "El mapa de las estrellas"
     },
     "tesoro": {
+      "audio": "mar_tesoro.mp3",
       "text": "La sirena te dice que el tesoro está en el arrecife, donde el agua es tan clara que se ven los peces de colores.",
       "theme": "SEA",
       "image": "mar.jpg",
@@ -96,6 +107,7 @@
       ]
     },
     "arrecife": {
+      "audio": "mar_arrecife.mp3",
       "text": "Buceas entre peces de colores y encuentras una concha enorme. Dentro hay una perla que brilla como una lámpara.",
       "theme": "SEA",
       "image": "mar_amanecer.jpg",
@@ -103,6 +115,7 @@
       "endingTitle": "La perla del arrecife"
     },
     "barco": {
+      "audio": "mar_barco.mp3",
       "text": "Vuelves al barco con el mapa de la sirena. Al zarpar, el mar se llena de delfines que acompañan tu viaje.",
       "theme": "SEA",
       "image": "mar.jpg",
@@ -110,6 +123,7 @@
       "endingTitle": "El viaje de los delfines"
     },
     "ballena": {
+      "audio": "mar_ballena.mp3",
       "text": "La ballena te lleva a una isla donde los piratas son amables y reparten tesoros entre los visitantes.",
       "theme": "SEA",
       "image": "mar_amanecer.jpg",
@@ -119,6 +133,7 @@
       ]
     },
     "isla": {
+      "audio": "mar_isla.mp3",
       "text": "En la isla te reciben piratas con sombreros de colores. Te dan una moneda de oro y un mapa para volver.",
       "theme": "SEA",
       "image": "mar_amanecer.jpg",
@@ -126,6 +141,7 @@
       "endingTitle": "La isla de los piratas amables"
     },
     "canto_ballena": {
+      "audio": "mar_canto_ballena.mp3",
       "text": "Cantas con la ballena una canción sin palabras. El mar se queda quieto para escuchar.",
       "theme": "SEA",
       "image": "mar_amanecer.jpg",
@@ -133,6 +149,7 @@
       "endingTitle": "La canción de la ballena"
     },
     "viento": {
+      "audio": "mar_viento.mp3",
       "text": "El viento trae un mensaje: el verdadero tesoro es el mapa del cielo.",
       "theme": "SEA",
       "image": "mar.jpg",
@@ -142,6 +159,7 @@
       ]
     },
     "constelaciones": {
+      "audio": "mar_constelaciones.mp3",
       "text": "Al mirar arriba ves constelaciones con forma de barco, de ballena y de faro. El cielo también guarda un mapa.",
       "theme": "SPACE",
       "image": "mar_amanecer.jpg",
@@ -149,6 +167,7 @@
       "endingTitle": "El mapa del cielo"
     },
     "puerto": {
+      "audio": "mar_puerto.mp3",
       "text": "Vuelves al puerto con el mapa en el bolsillo. Prometes volver al amanecer para seguir buscando.",
       "theme": "SEA",
       "image": "mar_amanecer.jpg",

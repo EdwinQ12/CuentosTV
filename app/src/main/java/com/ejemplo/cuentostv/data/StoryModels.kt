@@ -45,7 +45,8 @@ data class StoryNode(
     val choices: List<StoryChoice> = emptyList(),
     val ending: Boolean = false,
     val endingTitle: String? = null,
-    val image: String? = null
+    val image: String? = null,
+    val audio: String? = null
 )
 
 @Serializable

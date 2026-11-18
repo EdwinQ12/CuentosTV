@@ -5,6 +5,7 @@
   "start": "inicio",
   "nodes": {
     "inicio": {
+      "audio": "luna_inicio.mp3",
       "text": "La luna se cayó del cielo y quedó atrapada entre los árboles. Está asustada y no recuerda el camino de vuelta.",
       "theme": "NIGHT",
       "image": "luna.jpg",
@@ -14,6 +15,7 @@
       ]
     },
     "luna": {
+      "audio": "luna_luna.mp3",
       "text": "La luna pesa menos de lo que parece, pero el cielo está muy alto. Necesitas una idea brillante.",
       "theme": "NIGHT",
       "image": "luna.jpg",
@@ -23,6 +25,7 @@
       ]
     },
     "buho": {
+      "audio": "luna_buho.mp3",
       "text": "El búho sabio te dice que hay dos caminos: el río de plata o la montaña de los ecos.",
       "theme": "NIGHT",
       "image": "luna.jpg",
@@ -32,6 +35,7 @@
       ]
     },
     "estrellas": {
+      "audio": "luna_estrellas.mp3",
       "text": "Las estrellas se reúnen alrededor de la luna y esperan una señal tuya.",
       "theme": "SPACE",
       "image": "luna_cielo.jpg",
@@ -41,6 +45,7 @@
       ]
     },
     "cadena": {
+      "audio": "luna_cadena.mp3",
       "text": "Las estrellas forman una cadena de luz y devuelven la luna al cielo. Esa noche todo el pueblo ve una luna más brillante.",
       "theme": "SPACE",
       "image": "luna_cielo.jpg",
@@ -48,6 +53,7 @@
       "endingTitle": "La cadena de estrellas"
     },
     "deseo": {
+      "audio": "luna_deseo.mp3",
       "text": "Cierras los ojos y pides un deseo. Cuando los abres, la luna ya está arriba y te guiña un ojo.",
       "theme": "SPACE",
       "image": "luna_cielo.jpg",
@@ -55,6 +61,7 @@
       "endingTitle": "El deseo de la luna"
     },
     "escalera": {
+      "audio": "luna_escalera.mp3",
       "text": "La escalera de nubes es resbaladiza, pero la luna se ríe por primera vez.",
       "theme": "NIGHT",
       "image": "luna.jpg",
@@ -64,6 +71,7 @@
       ]
     },
     "subir": {
+      "audio": "luna_subir.mp3",
       "text": "Subes con la luna hasta lo alto del cielo. Desde allí ves el bosque, el pueblo y tu casa como un mapa pequeño.",
       "theme": "SPACE",
       "image": "luna_cielo.jpg",
@@ -71,6 +79,7 @@
       "endingTitle": "La luna y tú en el cielo"
     },
     "lago": {
+      "audio": "luna_lago.mp3",
       "text": "La luna decide quedarse a vivir en el lago. Cada noche se refleja en el agua y el lago brilla como un espejo.",
       "theme": "NIGHT",
       "image": "luna.jpg",
@@ -78,6 +87,7 @@
       "endingTitle": "La luna se queda en el lago"
     },
     "rio": {
+      "audio": "luna_rio.mp3",
       "text": "El río de plata te lleva hasta un faro abandonado. La luna se instala en lo alto y se convierte en una luz que guía a los viajeros.",
       "theme": "SEA",
       "image": "mar.jpg",
@@ -87,6 +97,7 @@
       ]
     },
     "faro": {
+      "audio": "luna_faro.mp3",
       "text": "Dentro del faro hay una escalera de caracol y una lámpara enorme apagada. La luna te mira, esperando.",
       "theme": "SEA",
       "image": "mar.jpg",
@@ -96,6 +107,7 @@
       ]
     },
     "faro_ending": {
+      "audio": "luna_faro_ending.mp3",
       "text": "Enciendes la luz y el faro barre el mar con un haz dorado. La luna se queda en la lámpara, feliz de guiar barcos.",
       "theme": "SEA",
       "image": "mar.jpg",
@@ -103,6 +115,7 @@
       "endingTitle": "El faro de la luna"
     },
     "balcon": {
+      "audio": "luna_balcon.mp3",
       "text": "Desde el balcón ves el río de plata llegar al mar. La luna te acompaña y promete visitarte cada noche.",
       "theme": "SEA",
       "image": "mar.jpg",
@@ -110,6 +123,7 @@
       "endingTitle": "El balcón de la luna"
     },
     "mar_final": {
+      "audio": "luna_mar_final.mp3",
       "text": "El río te deja en una playa tranquila. La luna se hunde despacio en el horizonte y el agua se llena de destellos.",
       "theme": "SEA",
       "image": "mar_amanecer.jpg",
@@ -117,6 +131,7 @@
       "endingTitle": "El mar de la luna"
     },
     "montana": {
+      "audio": "luna_montana.mp3",
       "text": "Subes la montaña de los ecos. Cada paso suena como una campana y las nubes se acercan.",
       "theme": "NIGHT",
       "image": "luna.jpg",
@@ -126,6 +141,7 @@
       ]
     },
     "cima": {
+      "audio": "luna_cima.mp3",
       "text": "Desde la cima, la luna encuentra un hueco entre las nubes. Sube despacio y promete visitarte cada noche.",
       "theme": "SPACE",
       "image": "luna_cielo.jpg",
@@ -133,6 +149,7 @@
       "endingTitle": "La luna entre las montañas"
     },
     "nubes": {
+      "audio": "luna_nubes.mp3",
       "text": "Las nubes bajan a tu lado y se ofrecen a llevaros. La luna se sienta en una y te invita a subir.",
       "theme": "SPACE",
       "image": "luna_cielo.jpg",
@@ -142,6 +159,7 @@
       ]
     },
     "viaje": {
+      "audio": "luna_viaje.mp3",
       "text": "Viajas con la luna sobre nubes rosadas. Al amanecer, ella vuelve a su lugar y tú despiertas en tu cama.",
       "theme": "SPACE",
       "image": "luna_cielo.jpg",
@@ -149,6 +167,7 @@
       "endingTitle": "El viaje de las nubes"
     },
     "bosque_final": {
+      "audio": "luna_bosque_final.mp3",
       "text": "Las nubes os dejan en el bosque. La luna se queda entre los árboles, pero ya no está triste: tiene compañía.",
       "theme": "NIGHT",
       "image": "luna.jpg",

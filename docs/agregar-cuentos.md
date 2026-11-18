@@ -18,6 +18,12 @@ Ideal para los cuentos principales, porque siempre están disponibles sin intern
    app/src/main/assets/stories/images/
    ```
 
+   Si tienes narración grabada, cópiala en:
+
+   ```
+   app/src/main/assets/stories/audio/
+   ```
+
 3. Agrega la entrada al catálogo
    `app/src/main/assets/stories/catalog.json`:
 
@@ -57,10 +63,11 @@ Ideal para agregar contenido después de publicar la app.
    tv-content/stories/mi-cuento.json
    ```
 
-2. Copia las imágenes en:
+2. Copia las imágenes y el audio en:
 
    ```
    tv-content/images/
+   tv-content/audio/
    ```
 
 3. Agrega la entrada a `tv-content/catalog.json` con `cover` y `version`.
@@ -114,6 +121,49 @@ powershell -ExecutionPolicy Bypass -File tools\generar-ilustraciones.ps1
 
 El script escribe en `assets/stories/images` y en `tv-content/images`.
 
+## Narración grabada (opcional)
+
+Cada escena puede apuntar a un archivo de audio:
+
+```json
+{
+  "text": "Texto de la escena.",
+  "audio": "mi-cuento_inicio.mp3"
+}
+```
+
+Si el archivo existe, la app lo reproduce en lugar del TTS. Si falta, usa la voz
+del televisor como respaldo.
+
+### Generar el audio con Windows
+
+El script usa las voces instaladas (SAPI) y convierte a MP3 si encuentra ffmpeg:
+
+```powershell
+# Cuento local
+powershell -ExecutionPolicy Bypass -File tools\generar-audio.ps1 `
+  -Story app\src\main\assets\stories\mi-cuento.json `
+  -Out app\src\main\assets\stories\audio
+
+# Cuento remoto
+powershell -ExecutionPolicy Bypass -File tools\generar-audio.ps1 `
+  -Story tv-content\stories\mi-cuento.json -Out tv-content\audio
+```
+
+- El script nombra los archivos como `<idCuento>_<idEscena>.mp3`.
+- Agrega el campo `audio` a cada escena con ese nombre.
+- `-Voice "Microsoft Sabina Desktop"` es la voz latina incluida en Windows.
+- `-Force` regenera archivos existentes.
+
+### Reemplazar por una voz humana o neuronal
+
+Sobrescribe los MP3 manteniendo el mismo nombre. No hay que cambiar el JSON ni
+recompilar si el cuento es remoto; en local, vuelve a compilar el APK.
+
+| Audio | Formato recomendado |
+| --- | --- |
+| Narración de escena | MP3 mono, 22–44 kHz, 64 kbps |
+
 ## Versionar un cuento existente
 
 - Cambia el contenido del JSON.
@@ -131,4 +181,5 @@ La app siempre descarga la versión publicada del catálogo al pulsar
 | El cuento no aparece en la biblioteca | El `id` ya existe como cuento local (los locales tienen prioridad) |
 | Aparece el degradado en vez de la imagen | Nombre de imagen distinto o descarga fallida; pulsa Actualizar otra vez |
 | Una voz no suena | La voz es "En línea" y no hay internet, o el motor TTS no la tiene instalada |
+| Se oye la voz del televisor en vez del audio | Falta el campo `audio` o el archivo no se descargó; pulsa Actualizar otra vez |
 | El cuento termina de golpe | Falta un final alcanzable o una escena quedó sin decisiones |

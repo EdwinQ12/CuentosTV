@@ -20,7 +20,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,10 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Button
 import androidx.tv.material3.Text
+import com.ejemplo.cuentostv.data.AudioSource
 import com.ejemplo.cuentostv.data.StoryItem
 import com.ejemplo.cuentostv.data.TextScale
 import com.ejemplo.cuentostv.ui.CuentosUiState
 import com.ejemplo.cuentostv.ui.Narrator
+import com.ejemplo.cuentostv.ui.StoryAudioPlayer
 import com.ejemplo.cuentostv.ui.components.StoryImage
 import com.ejemplo.cuentostv.ui.theme.StoryBackground
 import com.ejemplo.cuentostv.ui.theme.TvMuted
@@ -47,7 +52,9 @@ import com.ejemplo.cuentostv.ui.theme.accentColor
 fun ReaderScreen(
     state: CuentosUiState,
     narrator: Narrator,
+    audioPlayer: StoryAudioPlayer,
     loadImage: suspend (StoryItem, String) -> Bitmap?,
+    loadAudio: suspend (StoryItem, String) -> AudioSource?,
     onChoose: (String) -> Unit,
     onRestart: () -> Unit,
     onHome: () -> Unit,
@@ -59,15 +66,28 @@ fun ReaderScreen(
     val firstAction = remember { FocusRequester() }
     val narrationEnabled = state.settings.narrationEnabled
     val largeText = state.settings.textScale == TextScale.LARGE
+    var hasRecordedAudio by remember { mutableStateOf(false) }
 
     LaunchedEffect(state.nodeId, narrationEnabled) {
-        if (node != null && narrationEnabled) {
-            val ending = node.endingTitle
-            narrator.speak(
-                if (ending != null) "$ending. ${node.text}" else node.text
-            )
+        audioPlayer.stop()
+        narrator.stop()
+        hasRecordedAudio = false
+
+        val current = node ?: return@LaunchedEffect
+        if (!narrationEnabled) return@LaunchedEffect
+
+        val recorded = current.audio?.let { name ->
+            runCatching { loadAudio(item, name) }.getOrNull()
+        }
+
+        if (recorded != null) {
+            hasRecordedAudio = true
+            audioPlayer.play(recorded)
         } else {
-            narrator.stop()
+            val ending = current.endingTitle
+            narrator.speak(
+                if (ending != null) "$ending. ${current.text}" else current.text
+            )
         }
     }
 
@@ -78,7 +98,10 @@ fun ReaderScreen(
     }
 
     DisposableEffect(Unit) {
-        onDispose { narrator.stop() }
+        onDispose {
+            narrator.stop()
+            audioPlayer.stop()
+        }
     }
 
     StoryBackground(theme = state.currentTheme) {
@@ -102,13 +125,31 @@ fun ReaderScreen(
                         fontSize = 15.sp
                     )
                 }
-                Button(onClick = onToggleNarration) {
+                if (hasRecordedAudio && narrationEnabled) {
+                    Button(
+                        onClick = { audioPlayer.toggle() },
+                        modifier = Modifier.padding(end = 10.dp)
+                    ) {
+                        Text(
+                            text = when {
+                                audioPlayer.isPlaying -> "Pausar"
+                                audioPlayer.isPaused -> "Seguir"
+                                else -> "Repetir"
+                            },
+                            fontSize = 17.sp
+                        )
+                    }
+                }
+                Button(
+                    onClick = onToggleNarration,
+                    modifier = Modifier.padding(start = if (hasRecordedAudio) 0.dp else 10.dp)
+                ) {
                     Text(
                         text = if (narrationEnabled) "Voz: Sí" else "Voz: No",
                         fontSize = 17.sp
                     )
                 }
-                Button(onClick = onBack, modifier = Modifier.padding(start = 12.dp)) {
+                Button(onClick = onBack, modifier = Modifier.padding(start = 10.dp)) {
                     Text("Volver", fontSize = 17.sp)
                 }
             }
@@ -228,7 +269,8 @@ fun ReaderScreen(
                 item {
                     Text(
                         text = "Narración: ${if (narrationEnabled) "activada" else "desactivada"} · " +
-                            "Texto: ${if (largeText) "grande" else "normal"}",
+                            "Texto: ${if (largeText) "grande" else "normal"} · " +
+                            (if (hasRecordedAudio) "audio grabado" else "voz del televisor"),
                         color = TvMuted,
                         fontSize = 14.sp
                     )

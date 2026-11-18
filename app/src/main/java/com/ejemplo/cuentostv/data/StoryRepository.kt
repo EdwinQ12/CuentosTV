@@ -22,6 +22,7 @@ class StoryRepository(private val context: Context) {
     private val remoteDir = File(context.filesDir, "remote")
     private val remoteStoriesDir = File(remoteDir, "stories")
     private val remoteImagesDir = File(remoteDir, "images")
+    private val remoteAudioDir = File(remoteDir, "audio")
     private val remoteCatalogFile = File(remoteDir, "catalog.json")
 
     private val imageCache = object : LruCache<String, Bitmap>(12) {
@@ -103,6 +104,23 @@ class StoryRepository(private val context: Context) {
         bitmap
     }
 
+    suspend fun audioSource(item: StoryItem, name: String): AudioSource? =
+        withContext(Dispatchers.IO) {
+            val fileName = safeName(name)
+            if (item.remote) {
+                val file = File(remoteAudioDir, fileName)
+                if (file.exists() && file.length() > 0L) {
+                    AudioSource.LocalFile(file)
+                } else {
+                    null
+                }
+            } else {
+                val path = "stories/audio/$fileName"
+                val exists = runCatching { context.assets.open(path).close() }.isSuccess
+                if (exists) AudioSource.Asset(path) else null
+            }
+        }
+
     suspend fun refreshRemote(): RemoteRefresh = withContext(Dispatchers.IO) {
         val catalogText = runCatching { fetchText(RemoteConfig.CATALOG_URL) }.getOrNull()
             ?: return@withContext RemoteRefresh(
@@ -130,6 +148,7 @@ class StoryRepository(private val context: Context) {
         remoteDir.mkdirs()
         remoteStoriesDir.mkdirs()
         remoteImagesDir.mkdirs()
+        remoteAudioDir.mkdirs()
 
         val valid = mutableListOf<StorySummary>()
         val errors = mutableListOf<String>()
@@ -152,6 +171,7 @@ class StoryRepository(private val context: Context) {
 
             File(remoteStoriesDir, summary.file).writeText(storyText)
             downloadImages(summary, story)
+            downloadAudio(story)
             valid += summary
         }
 
@@ -195,6 +215,17 @@ class StoryRepository(private val context: Context) {
             if (target.exists() && target.length() > 0L) return@forEach
             runCatching {
                 target.writeBytes(fetchBytes(RemoteConfig.imageUrl(safeName(name))))
+            }
+        }
+    }
+
+    private fun downloadAudio(story: Story) {
+        val names = story.nodes.values.mapNotNull { it.audio }.toSet()
+        names.forEach { name ->
+            val target = File(remoteAudioDir, safeName(name))
+            if (target.exists() && target.length() > 0L) return@forEach
+            runCatching {
+                target.writeBytes(fetchBytes(RemoteConfig.audioUrl(safeName(name))))
             }
         }
     }

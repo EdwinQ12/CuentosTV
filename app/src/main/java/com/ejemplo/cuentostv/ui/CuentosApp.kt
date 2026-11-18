@@ -39,9 +39,13 @@ fun CuentosApp() {
     val viewModel: CuentosViewModel = viewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val narrator = remember { Narrator(context) }
+    val audioPlayer = remember { StoryAudioPlayer(context) }
 
     DisposableEffect(Unit) {
-        onDispose { narrator.shutdown() }
+        onDispose {
+            narrator.shutdown()
+            audioPlayer.release()
+        }
     }
 
     LaunchedEffect(state.settings.voiceName, state.settings.speechRate) {
@@ -100,7 +104,9 @@ fun CuentosApp() {
                         ReaderScreen(
                             state = state,
                             narrator = narrator,
+                            audioPlayer = audioPlayer,
                             loadImage = viewModel::loadImage,
+                            loadAudio = viewModel::loadAudio,
                             onChoose = viewModel::choose,
                             onRestart = viewModel::restartStory,
                             onHome = viewModel::goHome,

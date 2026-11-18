@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.ejemplo.cuentostv.data.AppSettings
+import com.ejemplo.cuentostv.data.AudioSource
 import com.ejemplo.cuentostv.data.ProgressRepository
 import com.ejemplo.cuentostv.data.SpeechRate
 import com.ejemplo.cuentostv.data.SettingsRepository
@@ -247,6 +248,9 @@ class CuentosViewModel(application: Application) : AndroidViewModel(application)
 
     suspend fun loadImage(item: StoryItem, name: String): Bitmap? =
         storyRepository.loadImage(item, name)
+
+    suspend fun loadAudio(item: StoryItem, name: String): AudioSource? =
+        storyRepository.audioSource(item, name)
 
     fun refreshRemote() {
         if (_uiState.value.isRefreshing) return

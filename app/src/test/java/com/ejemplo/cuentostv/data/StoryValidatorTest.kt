@@ -175,6 +175,35 @@ class StoryValidatorTest {
     }
 
     @Test
+    fun `los audios referenciados existen`() {
+        val localCatalog = json.decodeFromString(
+            StoryCatalog.serializer(),
+            File("src/main/assets/stories/catalog.json").readText()
+        )
+
+        localCatalog.stories.forEach { summary ->
+            val story = loadAssetStory(summary.id)
+            story.nodes.values.mapNotNull { it.audio }.forEach { name ->
+                assertTrue(
+                    "Falta app/src/main/assets/stories/audio/$name",
+                    File("src/main/assets/stories/audio/$name").exists()
+                )
+            }
+        }
+
+        val remoteStory = json.decodeFromString(
+            Story.serializer(),
+            File("../tv-content/stories/reloj.json").readText()
+        )
+        remoteStory.nodes.values.mapNotNull { it.audio }.forEach { name ->
+            assertTrue(
+                "Falta tv-content/audio/$name",
+                File("../tv-content/audio/$name").exists()
+            )
+        }
+    }
+
+    @Test
     fun `cuentos locales incluidos son jugables`() {
         listOf("bosque", "luna", "mar").forEach { id ->
             val story = loadAssetStory(id)

@@ -9,4 +9,6 @@ object RemoteConfig {
     fun storyUrl(file: String): String = "$CONTENT_BASE/stories/$file"
 
     fun imageUrl(file: String): String = "$CONTENT_BASE/images/$file"
+
+    fun audioUrl(file: String): String = "$CONTENT_BASE/audio/$file"
 }

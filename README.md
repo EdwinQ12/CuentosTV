@@ -13,8 +13,8 @@ contenido remoto.
 
 ## Descarga
 
-APK de prueba: [`CuentosTV-1.1.0-debug.apk`](https://github.com/EdwinQ12/CuentosTV/releases/download/v1.1.0/CuentosTV-1.1.0-debug.apk)
-(release [v1.1.0](https://github.com/EdwinQ12/CuentosTV/releases/tag/v1.1.0)).
+APK de prueba: [`CuentosTV-1.2.0-debug.apk`](https://github.com/EdwinQ12/CuentosTV/releases/download/v1.2.0/CuentosTV-1.2.0-debug.apk)
+(release [v1.2.0](https://github.com/EdwinQ12/CuentosTV/releases/tag/v1.2.0)).
 
 ## Características
 
@@ -22,7 +22,9 @@ APK de prueba: [`CuentosTV-1.1.0-debug.apk`](https://github.com/EdwinQ12/Cuentos
 | --- | --- |
 | Biblioteca local (3 cuentos ilustrados) | Incluida |
 | Decisiones y múltiples finales | 17–19 escenas y 9–10 finales por cuento |
-| Narración TTS en español | Incluida |
+| Narración con audio grabado | En los 3 cuentos locales y en el remoto |
+| Respaldo automático a TTS | Incluido si una escena no tiene audio |
+| Pausar / seguir / repetir narración | Incluido |
 | Selección de voz del televisor | Incluida (voces locales y en línea) |
 | Velocidad de lectura | Lenta / Normal / Rápida |
 | Progreso por cuento (DataStore) | Incluido |
@@ -101,7 +103,29 @@ El APK queda en `app/build/outputs/apk/debug/app-debug.apk` y se copia a
 La pantalla de inicio muestra **Continuar leyendo** si hay un cuento empezado.
 Al llegar a un final el progreso se borra para no reanudar en el desenlace.
 
-## Narración y voz
+## Narración: audio grabado y TTS
+
+Cada escena puede traer su propia narración en `audio`. Si el archivo existe, la
+app lo reproduce y **no** usa TTS; si no existe, usa la voz del televisor como
+respaldo. Así se puede tener una voz humana o neuronal solo en algunas escenas y
+el resto sigue funcionando.
+
+- **Audio local:** `app/src/main/assets/stories/audio/`
+- **Audio remoto:** `tv-content/audio/`; se descarga con **Actualizar cuentos** y
+  se guarda en `filesDir/remote/audio`.
+- En el lector aparecen **Pausar / Seguir / Repetir** cuando la escena tiene audio.
+- Los MP3 incluidos se generaron en español latino (Microsoft Sabina, es-MX) con:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\generar-audio.ps1 `
+  -Story app\src\main\assets\stories\bosque.json `
+  -Out app\src\main\assets\stories\audio
+```
+
+Para usar una voz más natural, reemplaza esos MP3 por grabaciones humanas o por
+audio de una voz neuronal, manteniendo el nombre `<cuento>_<escena>.mp3`.
+
+## Narración y voz (TTS)
 
 En **Ajustes** puedes:
 
@@ -141,14 +165,14 @@ powershell -ExecutionPolicy Bypass -File tools\generar-ilustraciones.ps1
 app/src/main/
   java/com/ejemplo/cuentostv/
     data/        Modelos JSON, repositorio local/remoto, validador, DataStore
-    ui/          ViewModel, shell, narrador TTS, tema
+    ui/          ViewModel, shell, narrador TTS, reproductor de audio, tema
     ui/components/  Carga de imágenes de los cuentos
     ui/screens/  Home, Detail, Reader, Settings, Voices
-  assets/stories/  catalog.json, cuentos e imágenes
+  assets/stories/  catalog.json, cuentos, imágenes y audio
   res/           Banner de TV, icono, tema
-app/src/test/    Pruebas del validador y de las imágenes
-tv-content/      Catálogo remoto publicado (cuentos e imágenes)
-tools/           Generador de ilustraciones
+app/src/test/    Pruebas del validador, imágenes y audios
+tv-content/      Catálogo remoto publicado (cuentos, imágenes y audio)
+tools/           Generadores de ilustraciones y de narración
 docs/            Esquema de los cuentos y guía para agregar contenido
 ```
 
@@ -160,7 +184,7 @@ cuentos remotos guardados en `filesDir/remote`. Al pulsar **Actualizar cuentos**
 1. Descarga `tv-content/catalog.json`.
 2. Descarga cada cuento del catálogo.
 3. Valida cada cuento (escena inicial, enlaces, finales, escenas alcanzables).
-4. Descarga las imágenes del cuento que falten.
+4. Descarga las imágenes y los audios del cuento que falten.
 5. Guarda solo los cuentos válidos y los muestra aunque no haya red.
 
 Los cuentos locales siempre están disponibles y tienen prioridad sobre uno
@@ -174,6 +198,7 @@ El catálogo remoto vive en `tv-content/` y se sirve desde GitHub:
 https://raw.githubusercontent.com/EdwinQ12/CuentosTV/main/tv-content/catalog.json
 https://raw.githubusercontent.com/EdwinQ12/CuentosTV/main/tv-content/stories/reloj.json
 https://raw.githubusercontent.com/EdwinQ12/CuentosTV/main/tv-content/images/reloj.jpg
+https://raw.githubusercontent.com/EdwinQ12/CuentosTV/main/tv-content/audio/reloj_inicio.mp3
 ```
 
 La URL base está en
@@ -204,6 +229,7 @@ Resumen:
       "text": "Texto de la escena.",
       "theme": "CASTLE",
       "image": "reloj.jpg",
+      "audio": "reloj_inicio.mp3",
       "choices": [
         { "text": "Opción uno", "next": "final" }
       ]
@@ -212,6 +238,7 @@ Resumen:
       "text": "Texto del final.",
       "theme": "CASTLE",
       "image": "reloj.jpg",
+      "audio": "reloj_final.mp3",
       "ending": true,
       "endingTitle": "Título del final"
     }
@@ -228,14 +255,18 @@ Resumen:
 
 Las pruebas cubren: cuento válido, escena inicial inexistente, escena sin
 decisiones, enlaces rotos, ausencia de finales, escenas inalcanzables, cuento
-vacío, cuentos incluidos y existencia de todas las imágenes referenciadas.
+vacío, cuentos incluidos y existencia de todas las imágenes y audios
+referenciados.
 
-Resultado actual: **10 pruebas, 0 fallos**.
+Resultado actual: **11 pruebas, 0 fallos**.
 
 ## Limitaciones conocidas
 
-- La narración depende del motor TTS del televisor. Las voces en línea requieren
-  internet y pueden tardar en aparecer.
+- El audio incluido se generó con la voz latina de Windows (Microsoft Sabina,
+  es-MX). Es más cálido que el TTS del televisor, pero se puede reemplazar por
+  grabaciones humanas o voz neuronal sin cambiar código.
+- Sin audio grabado, la narración depende del motor TTS del televisor. Las voces
+  en línea requieren internet y pueden tardar en aparecer.
 - Las ilustraciones son gráficos vectoriales generados por script; no son fotos
   ni dibujos hechos a mano.
 - El catálogo remoto usa `raw.githubusercontent.com`, pensado para un proyecto
