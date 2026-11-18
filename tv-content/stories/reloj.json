@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "reloj",
+  "title": "El reloj del abuelo",
+  "start": "inicio",
+  "nodes": {
+    "inicio": {
+      "text": "En el desván encuentras un reloj de pared que se detuvo hace muchos años. Cuando lo tocas, las manecillas tiemblan y una puerta diminuta aparece en su costado.",
+      "theme": "CASTLE",
+      "choices": [
+        { "text": "Darle cuerda al reloj", "next": "cuerda" },
+        { "text": "Mirar por la puerta diminuta", "next": "puerta" }
+      ]
+    },
+    "cuerda": {
+      "text": "El reloj suena una vez, dos veces, tres veces. Con cada campanada se abre una puerta en la pared del desván y aparece un jardín lleno de relojes con forma de flor.",
+      "theme": "CASTLE",
+      "choices": [
+        { "text": "Entrar al jardín", "next": "jardin" },
+        { "text": "Cerrar la puerta y escuchar", "next": "cerrar" }
+      ]
+    },
+    "puerta": {
+      "text": "Al otro lado de la puerta hay una escalera de engranajes que baja hasta un taller diminuto. Un ratón con delantal te saluda y te ofrece un destornillador del tamaño de un dedo.",
+      "theme": "NIGHT",
+      "choices": [
+        { "text": "Ayudar al ratón con el reloj", "next": "raton" },
+        { "text": "Pedirle que arregle el reloj del abuelo", "next": "arreglo" }
+      ]
+    },
+    "jardin": {
+      "text": "Las flores del jardín marcan cada una una hora distinta. Si eliges una, puedes ver un recuerdo del abuelo: su risa, su taller, su primer reloj. El jardín te deja llevarte uno.",
+      "theme": "FOREST",
+      "ending": true,
+      "endingTitle": "El jardín de las horas"
+    },
+    "cerrar": {
+      "text": "Cierras la puerta y el reloj vuelve a latir despacio. Desde ese día, cada vez que el desván queda en silencio, escuchas un tic tac cálido que te acompaña.",
+      "theme": "CASTLE",
+      "ending": true,
+      "endingTitle": "El tiempo quieto"
+    },
+    "raton": {
+      "text": "Con tu ayuda, el ratón ajusta el último engranaje. El reloj del desván vuelve a funcionar y el taller entero celebra con una lluvia de pequeñas tuercas doradas.",
+      "theme": "NIGHT",
+      "ending": true,
+      "endingTitle": "El taller de los engranajes"
+    },
+    "arreglo": {
+      "text": "El ratón sube al desván contigo y arregla el reloj con paciencia. Cuando suena la primera campanada, el abuelo aparece en la puerta y sonríe sin decir nada.",
+      "theme": "CASTLE",
+      "ending": true,
+      "endingTitle": "La hora de volver"
+    }
+  }
+}

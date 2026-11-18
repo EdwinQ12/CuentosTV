@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "stories": [
+    {
+      "id": "reloj",
+      "title": "El reloj del abuelo",
+      "description": "Un reloj detenido en el desván esconde un taller de engranajes y un jardín de horas.",
+      "age": "7+",
+      "theme": "CASTLE",
+      "file": "reloj.json",
+      "version": 1
+    }
+  ]
+}

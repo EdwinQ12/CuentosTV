@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "stories": [
+    {
+      "id": "bosque",
+      "title": "El bosque de las luces",
+      "description": "Una luz azul te guía entre árboles, ríos y criaturas que solo salen de noche.",
+      "age": "6+",
+      "theme": "FOREST",
+      "file": "bosque.json",
+      "version": 1
+    },
+    {
+      "id": "luna",
+      "title": "La luna perdida",
+      "description": "La luna se cayó del cielo y necesita ayuda para volver a su lugar.",
+      "age": "6+",
+      "theme": "NIGHT",
+      "file": "luna.json",
+      "version": 1
+    },
+    {
+      "id": "mar",
+      "title": "El mapa del mar",
+      "description": "Un mapa antiguo te lleva a faros, ballenas y tesoros escondidos.",
+      "age": "7+",
+      "theme": "SEA",
+      "file": "mar.json",
+      "version": 1
+    }
+  ]
+}

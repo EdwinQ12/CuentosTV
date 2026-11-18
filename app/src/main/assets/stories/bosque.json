@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "bosque",
+  "title": "El bosque de las luces",
+  "start": "inicio",
+  "nodes": {
+    "inicio": {
+      "text": "Una noche, una luz azul cruza el bosque y se detiene entre los árboles. Parece esperar algo de ti.",
+      "theme": "FOREST",
+      "choices": [
+        { "text": "Seguir la luz", "next": "sendero" },
+        { "text": "Quedarte quieto y observar", "next": "claro" }
+      ]
+    },
+    "sendero": {
+      "text": "La luz te lleva hasta un río que brilla como si tuviera estrellas dentro. Hay un puente de raíces y una orilla llena de musgo.",
+      "theme": "FOREST",
+      "choices": [
+        { "text": "Cruzar el puente de raíces", "next": "puente" },
+        { "text": "Seguir la orilla", "next": "orilla" }
+      ]
+    },
+    "claro": {
+      "text": "En el claro encuentras un mapa dibujado sobre hojas secas. Una flecha señala un árbol enorme y otra te devuelve a casa.",
+      "theme": "FOREST",
+      "choices": [
+        { "text": "Seguir el mapa hacia el árbol", "next": "arbol" },
+        { "text": "Volver a casa", "next": "casa" }
+      ]
+    },
+    "puente": {
+      "text": "Al cruzar el puente, cientos de luciérnagas encienden sus luces. Un pequeño pueblo celebra su fiesta anual y te invita a quedarte.",
+      "theme": "NIGHT",
+      "ending": true,
+      "endingTitle": "El pueblo de las luciérnagas"
+    },
+    "orilla": {
+      "text": "La orilla termina en una cueva. Del interior llega un murmullo de agua y una luz que parpadea.",
+      "theme": "NIGHT",
+      "choices": [
+        { "text": "Entrar en la cueva", "next": "cueva" },
+        { "text": "Llamar desde la entrada", "next": "eco" }
+      ]
+    },
+    "cueva": {
+      "text": "Dentro de la cueva hay un río de estrellas que corre bajo tus pies. Una voz antigua te dice que el bosque te estaba esperando.",
+      "theme": "SPACE",
+      "ending": true,
+      "endingTitle": "El río de estrellas"
+    },
+    "eco": {
+      "text": "Tu voz rebota por las paredes y responde con un coro de luciérnagas. El bosque te recuerda que nunca estás realmente solo.",
+      "theme": "FOREST",
+      "ending": true,
+      "endingTitle": "La voz del bosque"
+    },
+    "arbol": {
+      "text": "El árbol enorme tiene una puerta de corteza. Al tocarla, se abre y muestra un jardín lleno de deseos escritos en hojas.",
+      "theme": "FOREST",
+      "ending": true,
+      "endingTitle": "El árbol de los deseos"
+    },
+    "casa": {
+      "text": "Vuelves a casa con una hoja luminosa en el bolsillo. Esa noche sueñas con el bosque y sus luces te acompañan.",
+      "theme": "CASTLE",
+      "ending": true,
+      "endingTitle": "Un sueño para contar"
+    }
+  }
+}

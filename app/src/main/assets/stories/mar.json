@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "mar",
+  "title": "El mapa del mar",
+  "start": "inicio",
+  "nodes": {
+    "inicio": {
+      "text": "Encuentras un mapa antiguo dentro de una botella. Tiene dos marcas: un faro y una isla que solo aparece al amanecer.",
+      "theme": "SEA",
+      "choices": [
+        { "text": "Seguir la ruta del faro", "next": "faro" },
+        { "text": "Navegar hacia el amanecer", "next": "amanecer" }
+      ]
+    },
+    "faro": {
+      "text": "El faro está cubierto de conchas y tiene una puerta entreabierta. Una luz gira lentamente en lo alto.",
+      "theme": "SEA",
+      "choices": [
+        { "text": "Entrar al faro", "next": "dentro" },
+        { "text": "Tocar la puerta", "next": "puerta" }
+      ]
+    },
+    "amanecer": {
+      "text": "Al amanecer, una ballena enorme nada junto a tu bote. Parece querer mostrarte algo.",
+      "theme": "SEA",
+      "choices": [
+        { "text": "Subir a la ballena", "next": "ballena" },
+        { "text": "Escuchar el viento", "next": "viento" }
+      ]
+    },
+    "dentro": {
+      "text": "Dentro del faro hay un cofre lleno de conchas que cantan. Cada una guarda la voz de un marinero.",
+      "theme": "NIGHT",
+      "ending": true,
+      "endingTitle": "El tesoro de las conchas"
+    },
+    "puerta": {
+      "text": "La puerta se abre sola. Una sirena te saluda y te ofrece un mapa nuevo, esta vez hacia las estrellas.",
+      "theme": "CASTLE",
+      "ending": true,
+      "endingTitle": "El faro de las sirenas"
+    },
+    "ballena": {
+      "text": "La ballena te lleva a una isla donde los piratas son amables y reparten tesoros entre los visitantes.",
+      "theme": "SEA",
+      "ending": true,
+      "endingTitle": "La isla de los piratas amables"
+    },
+    "viento": {
+      "text": "El viento trae un mensaje: el verdadero tesoro es el mapa del cielo. Al mirar arriba, ves constelaciones con forma de barco.",
+      "theme": "SPACE",
+      "ending": true,
+      "endingTitle": "El mapa del cielo"
+    }
+  }
+}

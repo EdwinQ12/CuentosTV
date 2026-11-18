@@ -1,0 +1,136 @@
+package com.ejemplo.cuentostv.ui
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.tv.material3.Text
+import com.ejemplo.cuentostv.ui.screens.DetailScreen
+import com.ejemplo.cuentostv.ui.screens.HomeScreen
+import com.ejemplo.cuentostv.ui.screens.ReaderScreen
+import com.ejemplo.cuentostv.ui.screens.SettingsScreen
+import com.ejemplo.cuentostv.ui.theme.CuentosTvTheme
+import com.ejemplo.cuentostv.ui.theme.TvMuted
+import com.ejemplo.cuentostv.ui.theme.TvSurface
+import kotlinx.coroutines.delay
+
+@Composable
+fun CuentosApp() {
+    val context = LocalContext.current
+    val viewModel: CuentosViewModel = viewModel()
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val narrator = remember { Narrator(context) }
+
+    DisposableEffect(Unit) {
+        onDispose { narrator.shutdown() }
+    }
+
+    BackHandler(enabled = state.screen != Screen.Home) {
+        viewModel.back()
+    }
+
+    LaunchedEffect(state.message) {
+        if (state.message != null) {
+            delay(5_000)
+            viewModel.clearMessage()
+        }
+    }
+
+    CuentosTvTheme {
+        Box(modifier = Modifier.fillMaxSize()) {
+            when (val screen = state.screen) {
+                Screen.Home -> HomeScreen(
+                    state = state,
+                    onStory = { storyId -> viewModel.openStory(storyId) },
+                    onContinue = viewModel::continueLastStory,
+                    onRefresh = viewModel::refreshRemote,
+                    onSettings = viewModel::openSettings
+                )
+
+                is Screen.Detail -> {
+                    if (state.currentItem != null) {
+                        DetailScreen(
+                            state = state,
+                            onStart = { viewModel.startStory(fromBeginning = false) },
+                            onRestart = { viewModel.startStory(fromBeginning = true) },
+                            onBack = viewModel::back
+                        )
+                    } else {
+                        HomeScreen(
+                            state = state,
+                            onStory = { storyId -> viewModel.openStory(storyId) },
+                            onContinue = viewModel::continueLastStory,
+                            onRefresh = viewModel::refreshRemote,
+                            onSettings = viewModel::openSettings
+                        )
+                    }
+                }
+
+                is Screen.Reader -> {
+                    if (state.currentItem != null) {
+                        ReaderScreen(
+                            state = state,
+                            narrator = narrator,
+                            onChoose = viewModel::choose,
+                            onRestart = viewModel::restartStory,
+                            onHome = viewModel::goHome,
+                            onBack = viewModel::back,
+                            onToggleNarration = viewModel::toggleNarration
+                        )
+                    } else {
+                        HomeScreen(
+                            state = state,
+                            onStory = { storyId -> viewModel.openStory(storyId) },
+                            onContinue = viewModel::continueLastStory,
+                            onRefresh = viewModel::refreshRemote,
+                            onSettings = viewModel::openSettings
+                        )
+                    }
+                }
+
+                Screen.Settings -> SettingsScreen(
+                    settings = state.settings,
+                    onToggleNarration = viewModel::toggleNarration,
+                    onToggleTextScale = viewModel::toggleTextScale,
+                    onBack = viewModel::back
+                )
+            }
+
+            state.message?.let { message ->
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(24.dp)
+                        .fillMaxWidth(0.75f)
+                        .background(
+                            color = TvSurface.copy(alpha = 0.95f),
+                            shape = RoundedCornerShape(18.dp)
+                        )
+                        .padding(horizontal = 22.dp, vertical = 14.dp)
+                ) {
+                    Text(
+                        text = message,
+                        color = Color.White,
+                        fontSize = 18.sp
+                    )
+                }
+            }
+        }
+    }
+}

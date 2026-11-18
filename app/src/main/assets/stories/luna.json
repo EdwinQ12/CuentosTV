@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "luna",
+  "title": "La luna perdida",
+  "start": "inicio",
+  "nodes": {
+    "inicio": {
+      "text": "La luna se cayó del cielo y quedó atrapada entre los árboles. Está asustada y no recuerda el camino de vuelta.",
+      "theme": "NIGHT",
+      "choices": [
+        { "text": "Ayudarla a subir", "next": "luna" },
+        { "text": "Buscar al búho sabio", "next": "buho" }
+      ]
+    },
+    "luna": {
+      "text": "La luna pesa menos de lo que parece, pero el cielo está muy alto. Necesitas una idea brillante.",
+      "theme": "NIGHT",
+      "choices": [
+        { "text": "Pedir ayuda a las estrellas", "next": "estrellas" },
+        { "text": "Construir una escalera de nubes", "next": "escalera" }
+      ]
+    },
+    "buho": {
+      "text": "El búho sabio te dice que hay dos caminos: el río de plata o la montaña de los ecos.",
+      "theme": "NIGHT",
+      "choices": [
+        { "text": "Seguir el río de plata", "next": "rio" },
+        { "text": "Subir la montaña", "next": "montana" }
+      ]
+    },
+    "estrellas": {
+      "text": "Las estrellas forman una cadena de luz y devuelven la luna al cielo. Esa noche todo el pueblo ve una luna más brillante.",
+      "theme": "SPACE",
+      "ending": true,
+      "endingTitle": "La luna vuelve al cielo"
+    },
+    "escalera": {
+      "text": "La escalera de nubes es resbaladiza, pero la luna se ríe por primera vez. Decide quedarse a vivir en el lago para siempre.",
+      "theme": "NIGHT",
+      "ending": true,
+      "endingTitle": "La luna se queda en el lago"
+    },
+    "rio": {
+      "text": "El río de plata te lleva hasta un faro abandonado. La luna se instala en lo alto y se convierte en una luz que guía a los viajeros.",
+      "theme": "SEA",
+      "ending": true,
+      "endingTitle": "El faro de la luna"
+    },
+    "montana": {
+      "text": "Desde la montaña, la luna encuentra un hueco entre las nubes. Sube despacio y promete visitarte cada noche.",
+      "theme": "CASTLE",
+      "ending": true,
+      "endingTitle": "La luna entre las montañas"
+    }
+  }
+}
