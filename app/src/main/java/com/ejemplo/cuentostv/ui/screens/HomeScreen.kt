@@ -95,7 +95,19 @@ fun HomeScreen(
                             fontSize = 17.sp
                         )
                     }
-                    Button(onClick = onSettings) {
+                    Button(
+                        onClick = onRefresh,
+                        enabled = !state.isRefreshing
+                    ) {
+                        Text(
+                            text = if (state.isRefreshing) "Actualizando..." else "Actualizar cuentos",
+                            fontSize = 17.sp
+                        )
+                    }
+                    Button(
+                        onClick = onSettings,
+                        modifier = Modifier.padding(start = 12.dp)
+                    ) {
                         Text("Ajustes", fontSize = 17.sp)
                     }
                 }
@@ -115,36 +127,22 @@ fun HomeScreen(
             }
 
             item {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "Biblioteca",
-                            color = TvText,
-                            fontSize = 26.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = if (state.remoteAvailable) {
-                                "${state.stories.size} cuentos · local y en línea"
-                            } else {
-                                "${state.stories.size} cuentos locales"
-                            },
-                            color = TvMuted,
-                            fontSize = 15.sp
-                        )
-                    }
-                    Button(
-                        onClick = onRefresh,
-                        enabled = !state.isRefreshing
-                    ) {
-                        Text(
-                            text = if (state.isRefreshing) "Actualizando..." else "Actualizar cuentos",
-                            fontSize = 15.sp
-                        )
-                    }
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = "Biblioteca",
+                        color = TvText,
+                        fontSize = 26.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = if (state.remoteAvailable) {
+                            "${state.stories.size} cuentos · local y en línea"
+                        } else {
+                            "${state.stories.size} cuentos locales"
+                        },
+                        color = TvMuted,
+                        fontSize = 15.sp
+                    )
                 }
             }
 

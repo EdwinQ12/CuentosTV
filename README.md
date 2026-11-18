@@ -139,6 +139,19 @@ Si cambia el propietario o el nombre del repositorio, solo hay que actualizar
 `CONTENT_BASE` y volver a compilar. El catálogo remoto de ejemplo incluye el
 cuento **El reloj del abuelo**.
 
+### Probar sin publicar en GitHub
+
+La variante `debug` permite HTTP en claro para usar un servidor local:
+
+```powershell
+# en la raíz del proyecto
+python -m http.server 8000 --bind 127.0.0.1
+```
+
+Cambia `CONTENT_BASE` a `http://10.0.2.2:8000/tv-content` (la IP del host desde
+el emulador), compila, entra a la app y pulsa **Actualizar cuentos**. Después
+vuelve a la URL de GitHub antes de generar el APK final.
+
 ### Formato
 
 Ver [`docs/esquema-cuentos.md`](docs/esquema-cuentos.md). Resumen:
