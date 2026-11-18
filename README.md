@@ -10,6 +10,11 @@ de cuentos locales que se puede ampliar con contenido remoto.
 - **Paquete:** `com.ejemplo.cuentostv`.
 - **SDK:** compile/target 36, mínimo 30.
 
+## Descarga
+
+APK de prueba: [`CuentosTV-1.0-debug.apk`](https://github.com/EdwinQ12/CuentosTV/releases/download/v1.0.0/CuentosTV-1.0-debug.apk)
+(release [v1.0.0](https://github.com/EdwinQ12/CuentosTV/releases/tag/v1.0.0)).
+
 ## Características
 
 | Función | Estado |
