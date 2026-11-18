@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0814">
+  <title>CuentosTV · Mando</title>
+  <style>
+    :root {
+      --bg: #0b0814;
+      --card: #1a1033;
+      --card2: #241546;
+      --text: #f7f1e3;
+      --muted: #b9b0d0;
+      --accent: #ffd166;
+      --green: #9be7c4;
+      --red: #ff8b8b;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      background: radial-gradient(1200px 600px at 50% -10%, #2b1b55 0%, var(--bg) 60%);
+      color: var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+    }
+    #app { max-width: 540px; margin: 0 auto; padding: 18px 0 32px; }
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; margin-bottom: 18px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 18px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px var(--green); }
+    .dot.off { background: var(--red); box-shadow: 0 0 10px var(--red); }
+    .ghost {
+      background: transparent; color: var(--muted); border: 1px solid #3a2a5e;
+      border-radius: 999px; padding: 8px 14px; font-size: 13px;
+    }
+    .panel {
+      background: linear-gradient(180deg, rgba(36,21,70,.9), rgba(26,16,51,.9));
+      border: 1px solid #33215a; border-radius: 22px; padding: 22px;
+    }
+    h1 { font-size: 26px; margin: 0 0 10px; line-height: 1.15; }
+    h2 { font-size: 20px; margin: 0 0 6px; }
+    p { line-height: 1.5; }
+    .muted { color: var(--muted); font-size: 14px; }
+    .scene-title { font-size: 24px; color: var(--accent); margin: 14px 0 6px; }
+    .scene-text { font-size: 19px; line-height: 1.55; margin: 10px 0 18px; }
+    .storybar { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+    .storybar span:first-child { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
+    .pill { background: #2d1c52; color: var(--accent); border-radius: 999px; padding: 4px 10px; font-size: 12px; }
+    button {
+      width: 100%; min-height: 56px; border-radius: 16px; border: 1px solid transparent;
+      background: var(--card2); color: var(--text); font-size: 17px; font-weight: 600;
+      padding: 14px 16px; margin: 8px 0; text-align: left; cursor: pointer;
+      display: flex; align-items: center; gap: 12px;
+    }
+    button:active { transform: scale(.99); background: #2f1c59; }
+    button.primary { background: var(--accent); color: #241546; justify-content: center; }
+    button.secondary { background: transparent; border-color: #43306d; justify-content: center; color: var(--muted); }
+    button.wide { justify-content: center; }
+    .num {
+      flex: 0 0 30px; height: 30px; border-radius: 50%;
+      background: rgba(255,209,102,.15); color: var(--accent);
+      display: grid; place-items: center; font-size: 14px;
+    }
+    .story { display: block; padding: 16px; }
+    .story strong { display: block; font-size: 18px; margin-bottom: 4px; }
+    .story span { display: block; color: var(--muted); font-size: 14px; font-weight: 400; line-height: 1.4; }
+    .story em { display: inline-block; margin-top: 8px; color: var(--accent); font-size: 12px; font-style: normal; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; }
+    .row button { justify-content: center; text-align: center; }
+    .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; margin-top: 12px; }
+    .controls button { justify-content: center; text-align: center; font-size: 15px; }
+    input {
+      width: 100%; height: 64px; border-radius: 16px; border: 1px solid #43306d;
+      background: #120b22; color: var(--text); font-size: 30px; letter-spacing: .5em;
+      text-align: center; margin: 14px 0 6px; font-weight: 700;
+    }
+    input::placeholder { color: #4b3a70; letter-spacing: .4em; }
+    .error { color: var(--red); font-size: 14px; min-height: 20px; margin: 6px 0; }
+    .hidden { display: none !important; }
+    .toast {
+      position: fixed; left: 16px; right: 16px; bottom: 18px;
+      background: #2d1c52; color: var(--text); border: 1px solid #43306d;
+      border-radius: 14px; padding: 12px 16px; font-size: 15px; text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,.45);
+    }
+    .stack { display: flex; flex-direction: column; gap: 2px; }
+    .empty { color: var(--muted); text-align: center; padding: 28px 0; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <div class="brand"><span id="dot" class="dot"></span> CuentosTV</div>
+      <button id="unlink" class="ghost hidden">Desvincular</button>
+    </header>
+    <main id="content"></main>
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+<script>
+(() => {
+  const content = document.getElementById('content');
+  const dot = document.getElementById('dot');
+  const unlinkBtn = document.getElementById('unlink');
+  const toastEl = document.getElementById('toast');
+  let token = localStorage.getItem('ctv_token') || '';
+  let lastState = '';
+  let lastMessage = '';
+  let timer = null;
+  let toastTimer = null;
+
+  const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (c) => (
+    { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+  ));
+
+  function setOnline(online) {
+    dot.classList.toggle('off', !online);
+  }
+
+  function toast(text) {
+    toastEl.textContent = text;
+    toastEl.classList.remove('hidden');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.add('hidden'), 3200);
+  }
+
+  function showPair() {
+    lastState = '';
+    unlinkBtn.classList.add('hidden');
+    content.innerHTML = `
+      <section class="panel">
+        <h1>Vincular con la TV</h1>
+        <p class="muted">Abre CuentosTV en el televisor, entra en Ajustes → Vincular teléfono y escribe aquí el código de 4 dígitos.</p>
+        <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="4" placeholder="0000" aria-label="Código de la TV">
+        <p id="pairError" class="error"></p>
+        <button id="pairBtn" class="primary">Vincular</button>
+        <p class="muted" style="margin-top:16px">El teléfono y la TV deben estar en la misma red Wi-Fi.</p>
+      </section>`;
+    document.getElementById('code').focus();
+    setOnline(false);
+  }
+
+  async function pair() {
+    const input = document.getElementById('code');
+    const error = document.getElementById('pairError');
+    const code = (input?.value || '').trim();
+    error.textContent = '';
+
+    if (!/^\d{4}$/.test(code)) {
+      error.textContent = 'Escribe los 4 dígitos.';
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/pair', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      });
+      if (!res.ok) {
+        error.textContent = 'Código incorrecto. Revisa el televisor.';
+        return;
+      }
+      const data = await res.json();
+      token = data.token;
+      localStorage.setItem('ctv_token', token);
+      unlinkBtn.classList.remove('hidden');
+      startPolling(true);
+    } catch (e) {
+      error.textContent = 'No se pudo conectar con la TV.';
+    }
+  }
+
+  async function send(payload) {
+    if (!token) return;
+    try {
+      const res = await fetch('/api/action', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, ...payload })
+      });
+      if (res.status === 401) { unlink(); return; }
+      poll();
+    } catch (e) {
+      toast('No se pudo enviar. Revisa la conexión.');
+    }
+  }
+
+  function unlink() {
+    token = '';
+    localStorage.removeItem('ctv_token');
+    lastState = '';
+    clearInterval(timer);
+    timer = null;
+    showPair();
+  }
+
+  function startPolling(immediate) {
+    unlinkBtn.classList.remove('hidden');
+    if (timer) clearInterval(timer);
+    timer = setInterval(poll, 900);
+    if (immediate) poll();
+  }
+
+  async function poll() {
+    if (!token) return;
+    try {
+      const res = await fetch('/api/state?token=' + encodeURIComponent(token), { cache: 'no-store' });
+      if (res.status === 401) { unlink(); return; }
+      if (!res.ok) throw new Error('bad');
+      const data = await res.json();
+      setOnline(true);
+
+      if (data.message && data.message !== lastMessage) {
+        lastMessage = data.message;
+        toast(data.message);
+      }
+
+      const serialized = JSON.stringify(data);
+      if (serialized !== lastState) {
+        lastState = serialized;
+        render(data);
+      }
+    } catch (e) {
+      setOnline(false);
+    }
+  }
+
+  function screenHome(d) {
+    const stories = d.stories.map((s) => `
+      <button class="story" data-story="${esc(s.id)}">
+        <strong>${esc(s.title)}</strong>
+        <span>${esc(s.description)}</span>
+        <em>${esc(s.age)}</em>
+      </button>`).join('');
+
+    return `
+      <section class="panel stack">
+        <h1>Biblioteca</h1>
+        <p class="muted">Elige un cuento para empezar en la TV.</p>
+        ${stories || '<p class="empty">No hay cuentos.</p>'}
+        <button class="secondary" data-a="settings">Ajustes</button>
+      </section>`;
+  }
+
+  function screenDetail(d) {
+    return `
+      <section class="panel stack">
+        <h1>${esc(d.title)}</h1>
+        <p class="muted">${esc(d.description)}</p>
+        <div class="row">
+          ${d.hasProgress ? '<button class="primary" data-a="continue">Continuar</button>' : ''}
+          <button class="${d.hasProgress ? '' : 'primary'}" data-a="start_new">${d.hasProgress ? 'Empezar de nuevo' : 'Empezar'}</button>
+        </div>
+        <button class="secondary" data-a="back">Volver</button>
+      </section>`;
+  }
+
+  function screenReader(d) {
+    const choices = d.choices.map((text, index) => `
+      <button data-i="${index}">
+        <span class="num">${index + 1}</span> ${esc(text)}
+      </button>`).join('');
+
+    let audioButton = '';
+    if (d.audio && d.narrationEnabled) {
+      const label = d.audio.playing ? 'Pausar' : (d.audio.paused ? 'Seguir' : 'Repetir');
+      audioButton = `<button data-a="audio_toggle">${label}</button>`;
+    }
+
+    const actions = d.ending
+      ? `<button class="primary" data-a="restart">Volver a empezar</button>
+         <button class="secondary" data-a="home">Elegir otro cuento</button>`
+      : `${choices}
+         <div class="controls">
+           ${audioButton}
+           <button data-a="toggle_narration">Voz: ${d.narrationEnabled ? 'Sí' : 'No'}</button>
+           <button data-a="back">Volver</button>
+         </div>`;
+
+    return `
+      <section class="panel">
+        <div class="storybar">
+          <span>${esc(d.title)}</span>
+          <span class="pill">${d.ending ? 'Final' : 'Decisión'}</span>
+        </div>
+        ${d.endingTitle ? `<h2 class="scene-title">${esc(d.endingTitle)}</h2>` : ''}
+        <p class="scene-text">${esc(d.text)}</p>
+        ${actions}
+      </section>`;
+  }
+
+  function screenSettings(d) {
+    return `
+      <section class="panel stack">
+        <h1>Ajustes</h1>
+        <button data-a="toggle_narration">Narración: ${d.narrationEnabled ? 'Activada' : 'Desactivada'}</button>
+        <button data-a="toggle_text">Texto: ${esc(d.textScale)}</button>
+        <button data-a="cycle_rate">Velocidad: ${esc(d.speechRate)}</button>
+        <p class="muted">Voz: ${esc(d.voiceLabel)}</p>
+        <button class="secondary" data-a="home">Volver al inicio</button>
+      </section>`;
+  }
+
+  function render(d) {
+    switch (d.screen) {
+      case 'home': content.innerHTML = screenHome(d); break;
+      case 'detail': content.innerHTML = screenDetail(d); break;
+      case 'reader': content.innerHTML = screenReader(d); break;
+      case 'settings': content.innerHTML = screenSettings(d); break;
+      case 'voices': content.innerHTML = `<section class="panel"><h1>Voces</h1><p class="muted">Las voces se eligen desde la TV.</p><button class="secondary" data-a="back">Volver</button></section>`; break;
+      case 'pairing': content.innerHTML = `<section class="panel"><h1>Vinculación</h1><p class="muted">Sigue las instrucciones del televisor.</p><button class="secondary" data-a="home">Volver al inicio</button></section>`; break;
+      default: content.innerHTML = `<p class="empty">Conectado a la TV.</p>`;
+    }
+  }
+
+  content.addEventListener('click', (event) => {
+    const button = event.target.closest('button');
+    if (!button) return;
+
+    if (button.id === 'pairBtn') { pair(); return; }
+    if (button.dataset.story) {
+      send({ action: 'open_story', storyId: button.dataset.story });
+      return;
+    }
+    if (button.dataset.i !== undefined) {
+      send({ action: 'choose', index: Number(button.dataset.i) });
+      return;
+    }
+    if (button.dataset.a) {
+      send({ action: button.dataset.a });
+    }
+  });
+
+  unlinkBtn.addEventListener('click', unlink);
+
+  if (token) {
+    startPolling(true);
+  } else {
+    showPair();
+  }
+})();
+</script>
+</body>
+</html>

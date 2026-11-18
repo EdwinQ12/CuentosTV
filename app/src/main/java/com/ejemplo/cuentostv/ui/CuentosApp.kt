@@ -1,6 +1,8 @@
 package com.ejemplo.cuentostv.ui
 
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -24,8 +26,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.tv.material3.Text
+import com.ejemplo.cuentostv.remote.RemoteRequest
+import com.ejemplo.cuentostv.remote.RemoteServer
+import com.ejemplo.cuentostv.remote.buildRemoteState
 import com.ejemplo.cuentostv.ui.screens.DetailScreen
 import com.ejemplo.cuentostv.ui.screens.HomeScreen
+import com.ejemplo.cuentostv.ui.screens.PairingScreen
 import com.ejemplo.cuentostv.ui.screens.ReaderScreen
 import com.ejemplo.cuentostv.ui.screens.SettingsScreen
 import com.ejemplo.cuentostv.ui.screens.VoicesScreen
@@ -40,9 +46,23 @@ fun CuentosApp() {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val narrator = remember { Narrator(context) }
     val audioPlayer = remember { StoryAudioPlayer(context) }
+    val remoteServer = remember {
+        RemoteServer(
+            context = context.applicationContext,
+            stateProvider = { buildRemoteState(viewModel.uiState.value, narrator, audioPlayer) },
+            actionHandler = { request ->
+                Handler(Looper.getMainLooper()).post {
+                    handleRemoteAction(request, viewModel, audioPlayer)
+                }
+            }
+        )
+    }
+    val remoteInfo by remoteServer.info.collectAsStateWithLifecycle()
 
     DisposableEffect(Unit) {
+        remoteServer.start()
         onDispose {
+            remoteServer.stop()
             narrator.shutdown()
             audioPlayer.release()
         }
@@ -133,6 +153,7 @@ fun CuentosApp() {
                     onCycleRate = viewModel::cycleSpeechRate,
                     onTestVoice = narrator::speakSample,
                     onToggleTextScale = viewModel::toggleTextScale,
+                    onOpenPairing = viewModel::openPairing,
                     onBack = viewModel::back
                 )
 
@@ -164,6 +185,11 @@ fun CuentosApp() {
                     },
                     onBack = viewModel::back
                 )
+
+                Screen.Pairing -> PairingScreen(
+                    info = remoteInfo,
+                    onBack = viewModel::back
+                )
             }
 
             state.message?.let { message ->
@@ -186,5 +212,30 @@ fun CuentosApp() {
                 }
             }
         }
+    }
+}
+
+private fun handleRemoteAction(
+    request: RemoteRequest,
+    viewModel: CuentosViewModel,
+    audioPlayer: StoryAudioPlayer
+) {
+    when (request.action) {
+        "open_story" -> request.storyId?.let(viewModel::openStory)
+        "start_new" -> viewModel.startStory(fromBeginning = true)
+        "continue" -> viewModel.startStory(fromBeginning = false)
+        "choose" -> {
+            val index = request.index ?: return
+            val node = viewModel.uiState.value.currentNode
+            node?.choices?.getOrNull(index)?.let { viewModel.choose(it.next) }
+        }
+        "back" -> viewModel.back()
+        "home" -> viewModel.goHome()
+        "restart" -> viewModel.restartStory()
+        "settings" -> viewModel.openSettings()
+        "toggle_narration" -> viewModel.toggleNarration()
+        "toggle_text" -> viewModel.toggleTextScale()
+        "cycle_rate" -> viewModel.cycleSpeechRate()
+        "audio_toggle" -> audioPlayer.toggle()
     }
 }

@@ -27,6 +27,7 @@ sealed interface Screen {
     data class Reader(val storyId: String) : Screen
     data object Settings : Screen
     data object Voices : Screen
+    data object Pairing : Screen
 }
 
 data class CuentosUiState(
@@ -216,6 +217,10 @@ class CuentosViewModel(application: Application) : AndroidViewModel(application)
         _uiState.update { it.copy(screen = Screen.Voices, message = null) }
     }
 
+    fun openPairing() {
+        _uiState.update { it.copy(screen = Screen.Pairing, message = null) }
+    }
+
     fun toggleNarration() {
         val newValue = !_uiState.value.settings.narrationEnabled
         viewModelScope.launch {
@@ -282,6 +287,7 @@ class CuentosViewModel(application: Application) : AndroidViewModel(application)
                 )
                 Screen.Settings -> it.copy(screen = Screen.Home)
                 Screen.Voices -> it.copy(screen = Screen.Settings)
+                Screen.Pairing -> it.copy(screen = Screen.Settings)
                 Screen.Home -> it
             }
         }

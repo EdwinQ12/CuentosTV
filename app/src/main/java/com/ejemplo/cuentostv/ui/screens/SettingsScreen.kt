@@ -36,6 +36,7 @@ fun SettingsScreen(
     onCycleRate: () -> Unit,
     onTestVoice: () -> Unit,
     onToggleTextScale: () -> Unit,
+    onOpenPairing: () -> Unit,
     onBack: () -> Unit
 ) {
     val firstFocus = remember { FocusRequester() }
@@ -133,6 +134,17 @@ fun SettingsScreen(
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
+                }
+            }
+
+            item {
+                Button(
+                    onClick = onOpenPairing,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                ) {
+                    Text("Vincular teléfono", fontSize = 19.sp)
                 }
             }
 

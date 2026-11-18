@@ -13,8 +13,8 @@ contenido remoto.
 
 ## Descarga
 
-APK de prueba: [`CuentosTV-1.2.0-debug.apk`](https://github.com/EdwinQ12/CuentosTV/releases/download/v1.2.0/CuentosTV-1.2.0-debug.apk)
-(release [v1.2.0](https://github.com/EdwinQ12/CuentosTV/releases/tag/v1.2.0)).
+APK de prueba: [`CuentosTV-1.3.0-debug.apk`](https://github.com/EdwinQ12/CuentosTV/releases/download/v1.3.0/CuentosTV-1.3.0-debug.apk)
+(release [v1.3.0](https://github.com/EdwinQ12/CuentosTV/releases/tag/v1.3.0)).
 
 ## Características
 
@@ -31,6 +31,7 @@ APK de prueba: [`CuentosTV-1.2.0-debug.apk`](https://github.com/EdwinQ12/Cuentos
 | Continuar donde se dejó | Incluido (se limpia al llegar a un final) |
 | Catálogo remoto + caché offline | Incluido (`tv-content/`) |
 | Portadas e ilustraciones por escena | Incluidas, con caché para las remotas |
+| Mando desde el teléfono (sin instalar app) | Incluido: QR, código y control |
 | Ajustes de voz y tamaño de texto | Incluidos |
 | Validación de JSON | En carga y en pruebas |
 
@@ -47,6 +48,10 @@ APK de prueba: [`CuentosTV-1.2.0-debug.apk`](https://github.com/EdwinQ12/Cuentos
 | Ajustes | Voces |
 | --- | --- |
 | ![Ajustes](docs/img/ajustes.png) | ![Voces](docs/img/voces.png) |
+
+| Vincular teléfono | Mando en el teléfono |
+| --- | --- |
+| ![Vincular](docs/img/vincular.png) | ![Mando](docs/img/mando.jpg) |
 
 ## Requisitos
 
@@ -102,6 +107,29 @@ El APK queda en `app/build/outputs/apk/debug/app-debug.apk` y se copia a
 
 La pantalla de inicio muestra **Continuar leyendo** si hay un cuento empezado.
 Al llegar a un final el progreso se borra para no reanudar en el desenlace.
+
+## Mando desde el teléfono
+
+La TV puede servir un mando web en la red local, sin instalar nada en el teléfono.
+
+1. En la TV: **Ajustes → Vincular teléfono**.
+2. En el teléfono: conecta la misma Wi-Fi y escanea el **QR** (o abre la
+   dirección `http://IP_DE_LA_TV:8765`).
+3. Escribe el **código de 4 dígitos** que muestra la TV.
+
+Desde el teléfono se elige el cuento, se leen las escenas, se toman las
+decisiones y se controla la narración. La TV sigue narrando y guardando el
+progreso; el teléfono solo envía órdenes.
+
+Detalles técnicos, endpoints y pruebas en
+[`docs/mando-movil.md`](docs/mando-movil.md).
+
+En el emulador, para probar desde el PC:
+
+```powershell
+adb -s emulator-5558 forward tcp:8765 tcp:8765
+# abre http://localhost:8765
+```
 
 ## Narración: audio grabado y TTS
 
@@ -165,15 +193,17 @@ powershell -ExecutionPolicy Bypass -File tools\generar-ilustraciones.ps1
 app/src/main/
   java/com/ejemplo/cuentostv/
     data/        Modelos JSON, repositorio local/remoto, validador, DataStore
+    remote/      Servidor del mando web y estado compartido
     ui/          ViewModel, shell, narrador TTS, reproductor de audio, tema
-    ui/components/  Carga de imágenes de los cuentos
-    ui/screens/  Home, Detail, Reader, Settings, Voices
+    ui/components/  Carga de imágenes y código QR
+    ui/screens/  Home, Detail, Reader, Settings, Voices, Pairing
   assets/stories/  catalog.json, cuentos, imágenes y audio
+  assets/remote/   Página del mando para el teléfono
   res/           Banner de TV, icono, tema
 app/src/test/    Pruebas del validador, imágenes y audios
 tv-content/      Catálogo remoto publicado (cuentos, imágenes y audio)
 tools/           Generadores de ilustraciones y de narración
-docs/            Esquema de los cuentos y guía para agregar contenido
+docs/            Esquema, guía de contenido y mando móvil
 ```
 
 ### Flujo de datos
@@ -273,8 +303,10 @@ Resultado actual: **11 pruebas, 0 fallos**.
   académico. Para producción conviene un CDN o una API propia.
 - El APK de `dist/` es de **debug** (firmado con la clave de depuración). Para
   publicar en Google Play hay que generar un keystore y firmar en release.
-- La app está pensada para pantallas de TV en horizontal; no incluye versión
-  para teléfono.
+- El mando web funciona en la misma red Wi-Fi y no sincroniza el progreso entre
+  dispositivos. La app está pensada para TV en horizontal.
+- El código de vinculación de 4 dígitos está pensado para una red doméstica de
+  confianza; no exponer el puerto 8765 a internet.
 
 ## Créditos
 
